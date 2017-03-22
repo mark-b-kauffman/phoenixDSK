@@ -1,3 +1,7 @@
+# File: learnrestutil.ex
+# Author: Mark Bykerk Kauffman
+# Date: 2017.03.22
+
 # An·cil·lar·y operations for the Learn Rest Client's Use
 defmodule LearnRestUtil, do: (
   def sayhello(), do: (IO.inspect "hello")

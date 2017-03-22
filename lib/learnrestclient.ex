@@ -1,3 +1,6 @@
+# File: learnrestclient.ex
+# Author: Mark Bykerk Kauffman
+# Date : 2017.03
 defmodule LearnRestClient do
 
   # We want to be able to access these module constants outside of the module.
