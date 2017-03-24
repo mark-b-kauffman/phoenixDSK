@@ -25,6 +25,14 @@ config :phoenixDSK, PhoenixDSK.Endpoint,
       ~r{web/templates/.*(eex)$}
     ]
   ]
+# This Learn REST Application's Key and secret
+# These are held by the application developer and not to be
+# shared outside that organization. Otherwise someone can
+# spoof your application. Read these with:
+# Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:appkey]
+config :phoenixDSK, PhoenixDSK.Endpoint,
+  appkey: "d128e50d-c91e-47d3-a97e-noneofyourbiz",
+  appsecret: "jZljsn00thingforuhereC36bGXixS52"
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

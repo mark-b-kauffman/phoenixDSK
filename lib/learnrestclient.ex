@@ -1,13 +1,14 @@
 # File: learnrestclient.ex
 # Author: Mark Bykerk Kauffman
 # Date : 2017.03
+# 2017.03.24 MBK - moved appkey and appsecret to config/dev.exs.
 defmodule LearnRestClient do
 
   # We want to be able to access these module constants outside of the module.
   # We define a key-value map with all of them. The appkey and secret are not valid.
   # Change them to be the app key and secret you get for your app from developer.blackboard.com.
-  @kv %{appkey: "d128e50d-c91e-47d3-a97e-9d0c8a77fb5e",
-        appsecret: "jZljsyAyUnthIoRl370PYC36bGXixS53",
+  # 2017.03.24 MBK moved key and secret to config/dev.exs.
+  @kv %{
         tokenendpoint: "/learn/api/public/v1/oauth2/token",
         dskendpoint: "/learn/api/public/v1/dataSources",
         usersendpoint: "/learn/api/public/v1/users",
@@ -198,9 +199,11 @@ defmodule LearnRestClient do
 
   """
   def get_oauth_potion_options() do
+    appkey = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:appkey]
+    appsecret = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:appsecret]
     [body: "#{get_oauth_request_body()}",
      headers: ["Content-Type": "application/x-www-form-urlencoded"],
-     basic_auth: {"#{@kv[:appkey]}","#{@kv[:appsecret]}"}]
+     basic_auth: {appkey,appsecret}]
   end
 
   @doc """
