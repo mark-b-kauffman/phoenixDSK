@@ -1,3 +1,4 @@
+# File: user.ex
 # Copyright (C) 2017, Blackboard Inc.
 # Author: Mark Bykerk Kauffman, 2017.03
 # All rights reserved.
@@ -23,3 +24,6 @@
 # IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+defmodule Learn.User do
+  defstruct [:id, :userName, :given, :familiy, :status, :availability, :externalId, :dataSourceId]
+end
