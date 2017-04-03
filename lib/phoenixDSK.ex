@@ -1,3 +1,8 @@
+# File: phoenixDSK.ex
+# Author: Mark Kauffman - used the generate scripts to create this.
+# 2017.03.27 MBK - Adding code to load the LearnRestClient here.
+#   We start another supervisor to load the LearnClient.
+
 defmodule PhoenixDSK do
   use Application
 

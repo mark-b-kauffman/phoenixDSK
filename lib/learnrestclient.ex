@@ -109,7 +109,7 @@ defmodule LearnRestClient do
      dsks = LearnRestClient.get_data_sources(fqdn)
      dskMap = LearnRestUtil.dsks_to_map(dsks["results"], %{})
      LearnRestClient.put(fqdnAtom, "dskMap", dskMap)
-     %{"tokenMap" => tokenMap, "dskMap" => dskMap}
+     %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => dskMap}
    end
 
    @doc """
