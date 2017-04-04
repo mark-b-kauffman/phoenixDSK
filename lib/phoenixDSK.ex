@@ -19,6 +19,7 @@ defmodule PhoenixDSK do
       supervisor(PhoenixDSK.Endpoint, []),
       # Start your own worker by calling: PhoenixDSK.Worker.start_link(arg1, arg2, arg3)
       # worker(PhoenixDSK.Worker, [arg1, arg2, arg3]),
+      worker(PhoenixDSK.RestClientAgent,[]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

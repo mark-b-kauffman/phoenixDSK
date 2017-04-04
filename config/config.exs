@@ -18,6 +18,10 @@ config :phoenixDSK, PhoenixDSK.Endpoint,
   pubsub: [name: PhoenixDSK.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+# Add our stuff to the endpoint
+  config :phoenixDSK, PhoenixDSK.Endpoint,
+    learnserver: "bd-partner-a-original.blackboard.com"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
