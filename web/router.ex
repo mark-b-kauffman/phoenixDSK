@@ -19,14 +19,19 @@ defmodule PhoenixDSK.Router do
     get "/", PageController, :index
 
     get "/users", UserController, :index
+    get "/users/:userName", UserController, :show
+
+    # Keep the following around to demonstrate Phoenix hot code reloading!
+    get "/hello", HelloController, :index
     # From: http://www.phoenixframework.org/docs/adding-pages
     # Notice that we put the atom :userName in the path. Phoenix will take
     # whatever value that appears in that position in the URL and pass a Map
     # with the key userName pointing to that value to the controller.
     # For example, if we point the browser at:
-    # http://localhost:4000/users/jdoe, the value of
+    # http://localhost:4000/hello/jdoe, the value of
     # :userName" will be "jdoe".
-    get "/users/:userName", UserController, :show
+    get "/hello/:userName", HelloController, :show
+
   end
 
   # Other scopes may use custom stacks.

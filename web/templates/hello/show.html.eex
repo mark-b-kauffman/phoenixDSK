@@ -1,0 +1,4 @@
+<div class="jumbotron">
+  <h2>Hello <%= @userName %>, from templates/hello/show.html.eex!</h2>
+  <h2>Hello again <%= Map.get(assigns, :userName) %>, from templates/hello/show.html.eex!</h2>
+</div>
