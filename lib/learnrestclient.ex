@@ -25,6 +25,10 @@ defmodule LearnRestClient do
   # This section implements a Key/Value 'Bucket' as described at
   # http://elixir-lang.org/getting-started/mix-otp/agent.html
   #
+  # Elixir is functional. Elixir functions do not maintain state.
+  # Instead we need some type of process to do so. Agents provide
+  # a simple wrapper around state.
+  #
   # We're going to use the KV Bucket to maint state regarding our
   # hostname, the auth token for a particular host, and anything
   # that I can't think of at the moment that we'll need to
@@ -35,7 +39,7 @@ defmodule LearnRestClient do
 
   @doc """
   Start the agent with the given 'name'. We can have many of these.
-  name must be an atom.
+  name must be an atom. This Agent is wrapping an Elixir Map.
 
   """
   def start_link(name) do
@@ -43,8 +47,22 @@ defmodule LearnRestClient do
   end
 
   @doc """
-  Get the value speced by a key from the 'bucket' with the given name.
-  name is an atom, key is a string
+  To understand the code in this function,
+  Agent.get(name,  &Map.get(&1, key))
+  the following is helpful:
+  iex> {:ok, agent} = Agent.start_link fn -> [] end
+  {:ok, #PID<0.57.0>}
+  << we wrapped a list >>
+  iex> Agent.update(agent, fn list -> ["eggs" | list] end)
+  :ok
+  << passed in a function to add to the list >>
+  iex> Agent.get(agent, fn list -> list end)
+  ["eggs"]
+  << passed in a function that returns the list >>
+  iex> Agent.stop(agent)
+  :ok
+  Here we get the value speced by a key from the 'bucket' with the given name.
+  name is an atom, key is a string. &1 represents the first paramater, a Map.
   """
   def get(name, key) do
     Agent.get(name,  &Map.get(&1, key))
@@ -108,6 +126,7 @@ defmodule LearnRestClient do
      # LearnRestClient.get(fqdnAtom, "dskMap")
      dsks = LearnRestClient.get_data_sources(fqdn)
      dskMap = LearnRestUtil.dsks_to_map(dsks["results"], %{})
+     LearnRestClient.put(fqdnAtom,"dsks",dsks)
      LearnRestClient.put(fqdnAtom, "dskMap", dskMap)
      %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => dskMap}
    end
