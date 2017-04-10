@@ -8,4 +8,9 @@ defmodule PhoenixDSK.UserController do
   def index(conn, _params) do
     render conn, "index.html"
   end
+
+  def show(conn, %{"userName" => userName}) do
+    render conn, "show.html", userName: userName
+  end
+
 end
