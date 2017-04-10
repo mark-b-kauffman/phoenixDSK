@@ -5,11 +5,13 @@
 To try the different modules in iex:
   * $ iex -S mix
 
-To start this Phoenix app:
+To start this Phoenix app you must do the following the first time after checkout:
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
   * Install Node.js dependencies with `npm install`
+
+The above only need doing the first time, after that you can just start the server with the following:
   * Start Phoenix endpoint with `mix phoenix.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
