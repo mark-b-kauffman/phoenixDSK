@@ -49,12 +49,12 @@ and learnserverAtom, the Learn server that we work with for the demo. Our
 private configuration is in confi/dev.exs, consisting of the login information
 to our local database, and our REST application key and secret.
 
-Before we run this application we must define a REST application on
+Before we run this web app we must define a REST application on
 developer.blackboard.com. Then we use the provided key and secret in
 the dev.exs file, as this is the application. We configure the Learn server
 REST integration for this application using the provided Application ID.
 
-The last piece that is unique to this application is that we define a worker in
+The last piece that is unique to this web app is that we define a worker in
 phoenixDSK/restclientagent.ex. This worker will start the LearnRestClient
 for us when we load the application, connecting to the :learnserver we
 defined in config.exs. We tell this application to start the worker in the
