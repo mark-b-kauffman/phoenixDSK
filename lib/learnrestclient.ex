@@ -124,11 +124,12 @@ defmodule LearnRestClient do
      # LearnRestClient.get(fqdnAtom, "tokenMap")
      # client["dskMap"] client["tokenMap"]["access_token"] client["dskMap"]["_17_1"]["description"]
      # LearnRestClient.get(fqdnAtom, "dskMap")
-     dsks = LearnRestClient.get_data_sources(fqdn)
-     dskMap = LearnRestUtil.dsks_to_map(dsks["results"], %{})
-     LearnRestClient.put(fqdnAtom,"dsks",dsks)
-     LearnRestClient.put(fqdnAtom, "dskMap", dskMap)
-     %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => dskMap}
+     {:ok, dsks} = LearnRestClient.get_data_sources(fqdn)
+     # dskMap = LearnRestUtil.dsks_to_map(dsks["results"], %{})
+     # LearnRestClient.put(fqdnAtom,"dsks",dsks)
+     # LearnRestClient.put(fqdnAtom, "dskMap", dskMap)
+     dskMap = LearnRestClient.get(fqdnAtom, "dskMap")
+     {:ok, %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => dskMap}}
    end
 
    @doc """
@@ -144,9 +145,22 @@ defmodule LearnRestClient do
      url = get_data_sources_url(fqdn)
      potionOptions = get_json_potion_options(fqdnAtom,"")
      response = HTTPotion.get(url, potionOptions)
-     {:ok, dataSourcesMap} = Poison.decode(response.body)
-     LearnRestClient.put(fqdnAtom, "dataSourcesMap", dataSourcesMap)
-     dataSourcesMap
+     {:ok, dsksResponseMap} = Poison.decode(response.body)
+     LearnRestClient.put(fqdnAtom, "dsksResponseMap", dsksResponseMap)
+     dskMap = LearnRestUtil.dsks_to_map(dsksResponseMap["results"],%{})
+     LearnRestClient.put(fqdnAtom, "dskMap", dskMap)
+     {:ok, dsksResponseMap}
+   end
+
+   @doc """
+   Get all the dataSources URL as a list of Learn.DSK structs
+   This behavior is analogous to a Repo.
+
+   """
+   def all(fqdn, Learn.Dsk) do
+     {:ok, dskResponseMap} = get_data_sources(fqdn)
+     {:ok, dskList} = LearnRestUtil.listofmaps_to_structs(dskResponseMap["results"],Learn.Dsk)
+     {:ok, dskList}
    end
 
    @doc """

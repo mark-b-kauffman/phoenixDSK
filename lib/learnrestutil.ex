@@ -25,7 +25,37 @@ defmodule LearnRestUtil, do: (
     dsks_to_map(tail, map)
   )
 
+  def listofmaps_to_structs(structType, listOfMaps) do
+    for n <- listOfMaps, do: LearnRestUtil.to_struct(structType, n)
+  end
+
+  @doc """
+  From: http://stackoverflow.com/questions/30927635/in-elixir-how-do-you-initialize-a-struct-with-a-map-variable
+  The following takes a Map, attrs, several "key" => "value" and matches it to the
+  corresponding key: "value" in the given kind where kind is a module that defines a struct.
+  Example:
+  Given -
+  defmodule Learn.Dsk do
+    defstruct [:id, :externalId, :description]
+  end
+  And -
+  dsk2 =%{"description"=> "some description", "externalId" => "an ext Id", "id" => "_1_3"}
+  Then  calling -
+  iex(7)> LearnRestUtil.to_struct(Learn.Dsk, dsk2)
+  %Learn.Dsk{description: "some description", externalId: "an ext Id", id: "_1_3"}
+  """
+  def to_struct(kind, attrs) do
+    struct = struct(kind)
+    Enum.reduce Map.to_list(struct), struct, fn {k, _}, acc ->
+      case Map.fetch(attrs, Atom.to_string(k)) do
+        {:ok, v} -> %{acc | k => v}
+        :error -> acc
+      end
+    end
+  end
+
 ) #defmodule LearnRestUtil
+
 
 LearnRestUtil.sayhello()
 IO.inspect LearnRestUtil.dsks_to_map([%{"externalId" => "saml.test.shib", "id" => "_8_1"}, %{"externalId" => "MicrosoftAzureAD", "id" => "_10_1"}],%{})
