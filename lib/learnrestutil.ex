@@ -25,6 +25,20 @@ defmodule LearnRestUtil, do: (
     dsks_to_map(tail, map)
   )
 
+  @doc """
+  listofmaps_to_structs takes a list of maps
+  [%{"a"=>"0", "b"=>"1"},... %{"a" => "7", "b"=>"6"}]
+  and attempts to turn that into a list of structs where if the structType
+  we pass has matching keys then the values get set accordingly in the new
+  list:
+  [Struct%{a: "0", b: "1"},... Struct%{a: "7", b: "6"}]
+  If there are no matching keys, then the resultant struct will have its
+  values set to nil:
+  iex(1)> amap = %{"a"=>"0", "b"=>"1"}
+  %{"a" => "0", "b" => "1"}
+  iex(2)> LearnRestUtil.to_struct(Learn.Dsk, amap)
+  %Learn.Dsk{description: nil, externalId: nil, id: nil}
+  """
   def listofmaps_to_structs(structType, listOfMaps) do
     for n <- listOfMaps, do: LearnRestUtil.to_struct(structType, n)
   end
