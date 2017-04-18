@@ -109,6 +109,9 @@ defmodule LearnRestClient do
      # from the auth url learn/api/public/v1/oauth2/token. We'll also,
      # because this was written for a DSK tool, grab the DSKs for
      # the system and keep associated with the Agent for the system.
+     # 2014.04.18 Storing the DSKs seemed like a good idea on first
+     # writing. We'll revisit this later as it may not be necessary,
+     # or good design.
      fqdnAtom = String.to_atom(fqdn)
      Agent.start_link(fn -> %{} end, name: fqdnAtom)
      LearnRestClient.put(fqdnAtom, "FQDN", fqdn)
@@ -124,7 +127,7 @@ defmodule LearnRestClient do
      # LearnRestClient.get(fqdnAtom, "tokenMap")
      # client["dskMap"] client["tokenMap"]["access_token"] client["dskMap"]["_17_1"]["description"]
      # LearnRestClient.get(fqdnAtom, "dskMap")
-     {:ok, dsks} = LearnRestClient.get_data_sources(fqdn)
+     {:ok, unused} = LearnRestClient.get_data_sources(fqdn)
      # dskMap = LearnRestUtil.dsks_to_map(dsks["results"], %{})
      # LearnRestClient.put(fqdnAtom,"dsks",dsks)
      # LearnRestClient.put(fqdnAtom, "dskMap", dskMap)
@@ -133,12 +136,34 @@ defmodule LearnRestClient do
    end
 
    @doc """
+   Get all the dataSources as a list of Learn.DSK structs
+   This behavior is analogous to a Repo.
+   2017.04.18 - Can't generalize here because we are calling the particular
+   get method for the given structure type.
+   """
+   def all(fqdn, Learn.Dsk) do
+     {:ok, dskResponseMap} = get_data_sources(fqdn)
+     {:ok, dskList} = LearnRestUtil.listofmaps_to_structs(Learn.Dsk,dskResponseMap["results"])
+     {:ok, dskList}
+   end
+
+   @doc """
+   Get all the users as a list of Learn.User structs
+   This behavior is analogous to a Repo.
+   """
+   def all(fqdn, Learn.User) do
+     {:ok, usersResponseMap} = get_users(fqdn)
+     {:ok, userList} = LearnRestUtil.listofmaps_to_structs(Learn.Dsk,usersResponseMap["results"])
+     {:ok, userList}
+   end
+
+   @doc """
    Get dataSources from the remote system specified by the fqdn
    Parses the JSON content in the response body to a map.
    Returns the Map. Looks like:
    %{"results" => [%{"description" => "Internal data source used for associating records that are created for use by the Bb system.",
      "externalId" => "INTERNAL", "id" => "_1_1"},... "id" => "_51_1"}]}
-
+   To Do: Implement Paging
    """
    def get_data_sources(fqdn) do
      fqdnAtom = String.to_atom(fqdn)
@@ -150,17 +175,6 @@ defmodule LearnRestClient do
      dskMap = LearnRestUtil.dsks_to_map(dsksResponseMap["results"],%{})
      LearnRestClient.put(fqdnAtom, "dskMap", dskMap)
      {:ok, dsksResponseMap}
-   end
-
-   @doc """
-   Get all the dataSources URL as a list of Learn.DSK structs
-   This behavior is analogous to a Repo.
-
-   """
-   def all(fqdn, Learn.Dsk) do
-     {:ok, dskResponseMap} = get_data_sources(fqdn)
-     {:ok, dskList} = LearnRestUtil.listofmaps_to_structs(Learn.Dsk,dskResponseMap["results"])
-     {:ok, dskList}
    end
 
    @doc """
@@ -243,15 +257,18 @@ defmodule LearnRestClient do
   Get Users from the remote system specified by the fqdn
   Parses the JSON content in the response body to a map.
   Returns the Map.
-
+  To Do: Implement Paging
   """
   def get_users(fqdn) do
     fqdnAtom = String.to_atom(fqdn)
     url = get_users_url(fqdn)
     potionOptions = get_json_potion_options(fqdnAtom,"")
     response = HTTPotion.get(url, potionOptions)
-    {:ok, usersMap} = Poison.decode(response.body)
-    usersMap
+    {:ok, usersResponseMap} = Poison.decode(response.body)
+    # Unlike DSKs, we don't store these in the LearnRestClient
+    # We keep the DSKs around - because of an early design
+    # decision that could possibly be changed later.
+    {:ok, usersResponseMap}
   end
 
   @doc """

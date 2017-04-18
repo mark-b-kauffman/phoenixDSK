@@ -68,9 +68,11 @@ start section of lib/phoenixDSK.ex with the line:
  anywhere in the application.
 
  Because the LearnRestClient was started by a worker, we can use it anywhere.
- Example:
+ Examples:
  fqdn=Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
- users = LearnRestClient.get_users(fqdn)
+ {:ok, users} = LearnRestClient.get_users(fqdn)
+
+ LearnRestClient.all(fqdn,Learn.User)
 
  2017.04.10 - MBK - We don't do any paging as of this writing so we only get the first page.
  This covers what I've written so far.
