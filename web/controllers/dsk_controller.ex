@@ -8,7 +8,7 @@ defmodule PhoenixDSK.DskController do
   def index(conn, _params) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, dskList} = LearnRestClient.all(fqdn, Learn.Dsk)
-    render conn, "index.html", dskList: dskList
+    render conn, "index.html", dskList: dskList, fqdn: fqdn
   end
 
 end
