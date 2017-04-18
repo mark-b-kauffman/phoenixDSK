@@ -159,7 +159,7 @@ defmodule LearnRestClient do
    """
    def all(fqdn, Learn.Dsk) do
      {:ok, dskResponseMap} = get_data_sources(fqdn)
-     {:ok, dskList} = LearnRestUtil.listofmaps_to_structs(dskResponseMap["results"],Learn.Dsk)
+     {:ok, dskList} = LearnRestUtil.listofmaps_to_structs(Learn.Dsk,dskResponseMap["results"])
      {:ok, dskList}
    end
 

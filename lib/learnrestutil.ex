@@ -40,7 +40,8 @@ defmodule LearnRestUtil, do: (
   %Learn.Dsk{description: nil, externalId: nil, id: nil}
   """
   def listofmaps_to_structs(structType, listOfMaps) do
-    for n <- listOfMaps, do: LearnRestUtil.to_struct(structType, n)
+    listOfStructs = for n <- listOfMaps, do: LearnRestUtil.to_struct(structType, n)
+    {:ok, listOfStructs}
   end
 
   @doc """

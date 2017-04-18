@@ -21,6 +21,8 @@ defmodule PhoenixDSK.Router do
     get "/users", UserController, :index
     get "/users/:userName", UserController, :show
 
+    get "/dsks", DskController, :index
+
     # Keep the following around to demonstrate Phoenix hot code reloading!
     get "/hello", HelloController, :index
     # From: http://www.phoenixframework.org/docs/adding-pages
