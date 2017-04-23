@@ -12,7 +12,9 @@ defmodule PhoenixDSK.UserController do
   end
 
   def show(conn, %{"userName" => userName}) do
-    render conn, "show.html", userName: userName
+    fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
+    {:ok, user} = LearnRestClient.get(fqdn, Learn.User, userName)
+    render conn, "show.html", user: user
   end
 
 end
