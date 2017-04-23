@@ -153,8 +153,18 @@ defmodule LearnRestClient do
    """
    def all(fqdn, Learn.User) do
      {:ok, usersResponseMap} = get_users(fqdn)
-     {:ok, userList} = LearnRestUtil.listofmaps_to_structs(Learn.Dsk,usersResponseMap["results"])
+     {:ok, userList} = LearnRestUtil.listofmaps_to_structs(Learn.User,usersResponseMap["results"])
      {:ok, userList}
+   end
+
+   @doc """
+   Get a user with the given userName. userName is in the format mkauffman
+   This behavior is analogous to a Repo.
+   """
+   def get(fqdn, Learn.User, userName) do
+     {:ok, userResponse} = get_user_with_userName(fqdn, userName)
+     user = LearnRestUtil.to_struct(Learn.User, userResponse)
+     {:ok, user}
    end
 
    @doc """
@@ -286,7 +296,7 @@ defmodule LearnRestClient do
     potionOptions = get_json_potion_options(fqdnAtom,"")
     response = HTTPotion.get(url, potionOptions)
     {:ok, user} = Poison.decode(response.body)
-    user
+    {:ok, user}
   end
 
   @doc """

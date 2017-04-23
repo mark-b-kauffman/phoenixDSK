@@ -6,7 +6,9 @@ defmodule PhoenixDSK.UserController do
   # for the template in a directory named after our controller,
   # so web/templates/user.
   def index(conn, _params) do
-    render conn, "index.html"
+    fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
+    {:ok, userList} = LearnRestClient.all(fqdn, Learn.User)
+    render conn, "index.html", userList: userList, fqdn: fqdn
   end
 
   def show(conn, %{"userName" => userName}) do

@@ -1,3 +1,14 @@
+<!-- templates/user/index.html.eex -->
 <div class="jumbotron">
-  <h2>Hello World, from templates/user/index.html.eex!</h2>
+  <h2>Rendered by templates/user/index.html.eex.</h2>
+  <h2>Users from <%= @fqdn %> </h2>
+      <table class="table">
+      <%= for user <- @userList do %>
+        <tr>
+          <td> id:<%= user.id %> </td>
+          <td> externalId:<%= user.externalId %> </td>
+          <td> userName:<%= user.userName %> </td>
+        </tr>
+      <%= end %>
+    </table>
 </div>
