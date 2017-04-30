@@ -25,5 +25,5 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 defmodule Learn.User do
-  defstruct [:id, :userName, :contact, :status, :availability, :externalId, :dataSourceId]
+  defstruct [:id, :userName, :name, :contact, :availability, :externalId, :dataSourceId]
 end
