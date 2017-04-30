@@ -8,10 +8,12 @@
     <tr  style="font-weight:bold">
       <td>userName</td>
       <td>dataSourceId</td>
+      <td>availability</td>
     </tr>
     <tr>
       <td> <%= @user.userName %> </td>
       <td> <%= @user.dataSourceId %> </td>
+      <td> <%= @user.availability["available"] %> </td>
     </tr>
 </table>
 </div>

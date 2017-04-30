@@ -8,15 +8,16 @@
       <table class="table">
         <tr  style="font-weight:bold">
           <td> userName </td>
-          <td> externalId </td>
+          <td> email </td>
           <td> dataSourceId </td>
+          <td> availability </td>
         </tr>
       <%= for user <- @userList do %>
         <tr>
           <td> <%= user.userName %> </td>
-
-          <td> <%= user.externalId %> </td>
+          <td> <%= user.contact["email"] %> </td>
           <td> <%= user.dataSourceId %> </td>
+          <td> <%= user.availability["available"] %> </td>
         </tr>
       <%= end %>
     </table>
