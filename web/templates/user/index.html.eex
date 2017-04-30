@@ -1,13 +1,22 @@
 <!-- templates/user/index.html.eex -->
 <div class="jumbotron">
-  <h2>Rendered by templates/user/index.html.eex.</h2>
-  <h2>Users from <%= @fqdn %> </h2>
+  <h4>Users from <%= @fqdn %> </h4>
+  <h6>Rendered by templates/user/index.html.eex.</h6>
+</div>
+
+<div class="col-lg-12">
       <table class="table">
+        <tr  style="font-weight:bold">
+          <td> userName </td>
+          <td> externalId </td>
+          <td> dataSourceId </td>
+        </tr>
       <%= for user <- @userList do %>
         <tr>
-          <td> id:<%= user.id %> </td>
-          <td> externalId:<%= user.externalId %> </td>
-          <td> userName:<%= user.userName %> </td>
+          <td> <%= user.userName %> </td>
+
+          <td> <%= user.externalId %> </td>
+          <td> <%= user.dataSourceId %> </td>
         </tr>
       <%= end %>
     </table>

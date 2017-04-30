@@ -1,12 +1,17 @@
 <!-- templates/user/show.html.eex -->
 <div class="jumbotron">
-  <h2>Rendered by templates/user/show.html.eex.</h2>
+  <h4><%= @user.userName %> </h4>
+  <h6>Rendered by templates/user/show.html.eex.</h6>
+</div>
+<div class="col-lg-6">
   <table class="table">
+    <tr  style="font-weight:bold">
+      <td>userName</td>
+      <td>dataSourceId</td>
+    </tr>
     <tr>
-      <td> id:<%= @user.id %> </td>
-      <td> externalId:<%= @user.externalId %> </td>
-      <td> userName:<%= @user.userName %> </td>
-      <td> dataSourceId:<%= @user.dataSourceId %> </td>
+      <td> <%= @user.userName %> </td>
+      <td> <%= @user.dataSourceId %> </td>
     </tr>
 </table>
 </div>
