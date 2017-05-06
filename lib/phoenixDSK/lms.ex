@@ -1,10 +1,14 @@
-defmodule PhoenixDSK.Depot do
-  
+defmodule PhoenixDSK.Lms do
+
+  # Puropse: Abstraction, Repo-like methods for accessing Blackboard Learn
+  # Instead of a database, we have the Blackboard Learn LMS.
+
   @doc """
   Get all the dataSources as a list of Learn.DSK structs
   This behavior is analogous to a Repo.
   2017.04.18 - Can't generalize here because we are calling the particular
-  get method for the given structure type.
+  get method for the given structure type. Hence there is an all method for
+  Learn.Dsk, and another all method for Learn.User, etc.
   """
   def all(fqdn, Learn.Dsk) do
     {:ok, dskResponseMap} = LearnRestClient.get_data_sources(fqdn)
