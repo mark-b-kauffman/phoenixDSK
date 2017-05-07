@@ -7,12 +7,12 @@
   <table class="table">
     <tr  style="font-weight:bold">
       <td>userName</td>
-      <td>dataSourceId</td>
+      <td>dsk externalId</td>
       <td>availability</td>
     </tr>
     <tr>
       <td> <%= @user.userName %> </td>
-      <td> <%= @user.dataSourceId %> </td>
+      <td> <%= @dskMap[@user.dataSourceId]["externalId"] %> </td>
       <td> <%= @user.availability["available"] %> </td>
     </tr>
 </table>
