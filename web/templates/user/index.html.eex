@@ -1,7 +1,7 @@
 <!-- templates/user/index.html.eex -->
 <div class="jumbotron">
   <h4>Users from <%= @fqdn %> </h4>
-  <h6>Rendered by templates/user/index.html.eex.</h6>
+  <h6>Rendered by templates/user/index.html.eex</h6>
 </div>
 
 <div class="col-lg-12">
@@ -9,14 +9,14 @@
         <tr  style="font-weight:bold">
           <td> userName </td>
           <td> email </td>
-          <td> dataSourceId </td>
+          <td> dsk externalId </td>
           <td> availability </td>
         </tr>
       <%= for user <- @userList do %>
         <tr>
           <td> <%= user.userName %> </td>
           <td> <%= user.contact["email"] %> </td>
-          <td> <%= user.dataSourceId %> </td>
+          <td> <%= @dskMap[user.dataSourceId]["externalId"] %> </td>
           <td> <%= user.availability["available"] %> </td>
         </tr>
       <%= end %>

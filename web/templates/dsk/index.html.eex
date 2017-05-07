@@ -1,6 +1,10 @@
 <!-- templates/dsk/index.html.eex -->
 <div class="jumbotron">
-  <h2>DSKs from <%= @fqdn %> </h2>
+  <h4>DSKs from <%= @fqdn %> </h2>
+  <h6>Rendered by templates/dsk/index.html.eex</h6>
+</div>
+
+<div class="col-lg-12">
       <table class="table">
       <%= for dsk <- @dskList do %>
         <tr>
