@@ -23,4 +23,12 @@ defmodule PhoenixDSK.UserController do
     render conn, "show.html", user: user, dskMap: dskMap
   end
 
+  def update(conn, %{"userName" => userName}) do
+    fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
+    {:ok, user} = Lms.get(fqdn, Learn.User, userName)
+    {:ok, unused} = LearnRestClient.get_data_sources(fqdn)
+    dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
+    render conn, "show.html", user: user, dskMap: dskMap
+  end #update
+
 end

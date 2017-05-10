@@ -19,7 +19,9 @@
 </div>
 
 <div class="col-lg-6" style="font-weight:bold">
-  <%= form_tag("/users/#{@user.userName}", method: "get") do %>
-    <%= submit "Search" %>
-  <% end %>
+
+  <%= form_for @conn, user_path(@conn, :update, @user.userName), [as: :session], fn f -> %>
+      <%= text_input f, :userName, [id: "the-user", placeholder: "Username"] %>
+  <%end %>
+
 </div>

@@ -20,7 +20,8 @@ defmodule PhoenixDSK.Router do
 
     get "/users", UserController, :index
     get "/users/:userName", UserController, :show
-
+    post "/users/:userName", UserController, :update
+    
     get "/dsks", DskController, :index
 
     # Keep the following around to demonstrate Phoenix hot code reloading!
