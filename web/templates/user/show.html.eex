@@ -18,10 +18,13 @@
 </table>
 </div>
 
-<div class="col-lg-6" style="font-weight:bold">
+<div class="col-lg-6" align="center" style="clear: both;">
+      <u>Update User</u>
+</div>
 
-  <%= form_for @conn, user_path(@conn, :update, @user.userName), [as: :session], fn f -> %>
-      <%= text_input f, :userName, [id: "the-user", placeholder: "Username"] %>
-  <%end %>
-
+<div class="col-lg-6" style="clear: both;">
+      <%= form_for @conn, user_path(@conn, :update, @user.userName), [as: :session], fn f -> %>
+          <%= select f, :newdsk, ["SYSTEM": "SYSTEM", "other": "other"], selected: @dskMap[@user.dataSourceId]["externalId"] %>
+          <%= submit "Submit" %>
+      <%end %>
 </div>
