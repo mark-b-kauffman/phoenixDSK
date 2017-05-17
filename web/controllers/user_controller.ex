@@ -1,5 +1,6 @@
 defmodule PhoenixDSK.UserController do
   use PhoenixDSK.Web, :controller
+  require Logger
   alias PhoenixDSK.Lms, as: Lms
 
   # See http://www.phoenixframework.org/docs/adding-pages
@@ -24,10 +25,11 @@ defmodule PhoenixDSK.UserController do
     render conn, "show.html", user: user, dskMap: dskMap, dskList: dskList
   end
 
-  def update(conn, %{"userName" => userName}) do
+  def update(conn, %{"userName" => userName, "session" => session}) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, user} = Lms.get(fqdn, Learn.User, userName)
     # Update the user in the LMS with this line.
+    Logger.info "You selected #{session["selected_dsk"]}"
     # Now show.
     show(conn, %{"userName" => userName})
   end #update
