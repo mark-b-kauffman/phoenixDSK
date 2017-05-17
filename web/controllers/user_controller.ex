@@ -22,6 +22,7 @@ defmodule PhoenixDSK.UserController do
     {:ok, unused} = LearnRestClient.get_data_sources(fqdn)
     dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
     dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
+    # here we need a util method that takes the dskMap and returns a list in the above form....
     render conn, "show.html", user: user, dskMap: dskMap, dskList: dskList
   end
 
