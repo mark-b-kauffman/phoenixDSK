@@ -17,18 +17,19 @@ defmodule PhoenixDSK.UserController do
 
   def show(conn, %{"userName" => userName}) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
-    {:ok, user} = Lms.get(fqdn, Learn.User, userName)
+    {:ok, user} = Lms.get(fqdn, Learn.User, userName) # user as struct
     {:ok, unused} = LearnRestClient.get_data_sources(fqdn)
     dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
-    render conn, "show.html", user: user, dskMap: dskMap
+    dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
+    render conn, "show.html", user: user, dskMap: dskMap, dskList: dskList
   end
 
   def update(conn, %{"userName" => userName}) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, user} = Lms.get(fqdn, Learn.User, userName)
-    {:ok, unused} = LearnRestClient.get_data_sources(fqdn)
-    dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
-    render conn, "show.html", user: user, dskMap: dskMap
+    # Update the user in the LMS with this line.
+    # Now show.
+    show(conn, %{"userName" => userName})
   end #update
 
 end

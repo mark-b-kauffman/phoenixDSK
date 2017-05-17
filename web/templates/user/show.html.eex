@@ -26,8 +26,9 @@
       <%= form_for @conn, user_path(@conn, :update, @user.userName), [as: :session], fn f -> %>
           <!-- %= select f, :newdsk, ["SYSTEM": "SYSTEM", "other": "other"], selected: @dskMap[@user.dataSourceId]["externalId"] % -->
           <!-- select(form, :user_id, users |> Enum.map(&{&1.name, &1.id})) -->
-          <%= select f, :selected_dsk,  [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
-            |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@user.dataSourceId]["id"]  %>
+          <!-- The following is a re-write of the above for this usage. dskList is a list of maps derived from the dskMap. -->
+          <!-- The dskList is of the form [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}, ...] -->
+          <%= select f, :selected_dsk,  @dskList |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@user.dataSourceId]["id"]  %>
           <%= submit "Submit" %>
       <%end %>
 </div>
