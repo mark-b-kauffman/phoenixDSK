@@ -9,6 +9,25 @@ defmodule PhoenixDSK.UserController do
     %{"availability" => %{"available" => "No"}, ... }
     %{"availability" => %{"available" => "Yes"}, ... }
     %{"availability" => %{"available" => "Disabled"}, ... }
+
+  Regarding the User data structure
+  iex(3)> {:ok, user} = PhoenixDSK.Lms.get(fqdn, Learn.User, "mkauffman-student")
+    {:ok,
+      %Learn.User{availability: %{"available" => "Yes"},
+      contact: %{"email" => "markkauffman2000@gmail.com"}, dataSourceId: "_2_1",
+      externalId: "mkauffman-student", id: "_92_1",
+      name: %{"family" => "Kauffman", "given" => "Mark (Student)",
+      "title" => "student"}, userName: "mkauffman-student"}}
+
+  Regarding the dskMap
+  iex(4)> dskMap = LearnRestClient.get(fqdnAtom, "dskMap")
+    %{"_10_1" => %{"externalId" => "MicrosoftAzureAD", "id" => "_10_1"},
+    "_17_1" => %{"description" => "Data source for Google",
+      "externalId" => "DS_GG", "id" => "_17_1"},
+    "_19_1" => %{"description" => "Accounts from MH test IdP",
+      "externalId" => "mh_shib", "id" => "_19_1"},
+    "_1_1" => %{"description" => "Internal data source used for associating records that are created for use by the Bb system.",
+      "externalId" => "INTERNAL", "id" => "_1_1"}, ... }
   """
 
   # See http://www.phoenixframework.org/docs/adding-pages
