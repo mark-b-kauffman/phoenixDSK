@@ -38,16 +38,16 @@ defmodule PhoenixDSK.UserController do
   def index(conn, _params) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, userList} = Lms.all(fqdn, Learn.User)
-    {:ok, unused} = LearnRestClient.get_data_sources(fqdn)
-    dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
+    {:ok, intionallyUnused, dskMap } = LearnRestClient.get_data_sources(fqdn)
+    # dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
     render conn, "index.html", userList: userList, dskMap: dskMap, fqdn: fqdn
   end
 
   def show(conn, %{"userName" => userName}) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, user} = Lms.get(fqdn, Learn.User, userName) # user as struct
-    {:ok, unused} = LearnRestClient.get_data_sources(fqdn)
-    dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
+    {:ok, intionallyUnused, dskMap} = LearnRestClient.get_data_sources(fqdn)
+    # dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
     # dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
     # here we need a util method that takes the dskMap and returns a list in the above form....
     # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
@@ -59,8 +59,8 @@ defmodule PhoenixDSK.UserController do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, user} = Lms.get(fqdn, Learn.User, userName)
     # Update the user in the LMS with this line.
-    Logger.info "You selected #{session["selected_dsk"]}"
-    Logger.info "You selected #{session["selected_avail"]}"
+    Logger.info "DSK value selected #{session["selected_dsk"]}"
+    Logger.info "'available' value selected #{session["selected_avail"]}"
     # Now show.
     show(conn, %{"userName" => userName})
   end #update

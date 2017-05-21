@@ -11,7 +11,7 @@ defmodule PhoenixDSK.Lms do
   Learn.Dsk, and another all method for Learn.User, etc.
   """
   def all(fqdn, Learn.Dsk) do
-    {:ok, dskResponseMap} = LearnRestClient.get_data_sources(fqdn)
+    {:ok, dskResponseMap, dskMapUnused} = LearnRestClient.get_data_sources(fqdn)
     {:ok, dskList} = LearnRestUtil.listofmaps_to_structs(Learn.Dsk,dskResponseMap["results"])
     {:ok, dskList}
   end

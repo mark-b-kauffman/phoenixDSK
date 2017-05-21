@@ -127,12 +127,8 @@ defmodule LearnRestClient do
      # LearnRestClient.get(fqdnAtom, "tokenMap")
      # client["dskMap"] client["tokenMap"]["access_token"] client["dskMap"]["_17_1"]["description"]
      # LearnRestClient.get(fqdnAtom, "dskMap")
-     {:ok, unused} = LearnRestClient.get_data_sources(fqdn)
-     # dskMap = LearnRestUtil.dsks_to_map(dsks["results"], %{})
-     # LearnRestClient.put(fqdnAtom,"dsks",dsks)
-     # LearnRestClient.put(fqdnAtom, "dskMap", dskMap)
-     dskMap = LearnRestClient.get(fqdnAtom, "dskMap")
-     {:ok, %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => dskMap}}
+     {:ok, intentionallyUnused, theDskMap} = LearnRestClient.get_data_sources(fqdn)
+     {:ok, %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => theDskMap}}
    end
 
    @doc """
@@ -152,7 +148,7 @@ defmodule LearnRestClient do
      LearnRestClient.put(fqdnAtom, "dsksResponseMap", dsksResponseMap)
      dskMap = LearnRestUtil.dsks_to_map(dsksResponseMap["results"],%{})
      LearnRestClient.put(fqdnAtom, "dskMap", dskMap)
-     {:ok, dsksResponseMap}
+     {:ok, dsksResponseMap, dskMap}
    end
 
    @doc """
