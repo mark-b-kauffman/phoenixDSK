@@ -3,6 +3,14 @@ defmodule PhoenixDSK.UserController do
   require Logger
   alias PhoenixDSK.Lms, as: Lms
 
+  @doc """
+  Notes:
+  Regarding Availability and Row Status
+    %{"availability" => %{"available" => "No"}, ... }
+    %{"availability" => %{"available" => "Yes"}, ... }
+    %{"availability" => %{"available" => "Disabled"}, ... }
+  """
+
   # See http://www.phoenixframework.org/docs/adding-pages
   # The core of this action is render conn, "index.html". This tells Phoenix
   # to find a template called index.html.eex and render it. Phoenix will look
@@ -31,6 +39,7 @@ defmodule PhoenixDSK.UserController do
     {:ok, user} = Lms.get(fqdn, Learn.User, userName)
     # Update the user in the LMS with this line.
     Logger.info "You selected #{session["selected_dsk"]}"
+    Logger.info "You selected #{session["selected_avail"]}"
     # Now show.
     show(conn, %{"userName" => userName})
   end #update

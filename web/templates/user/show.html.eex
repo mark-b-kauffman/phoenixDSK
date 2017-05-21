@@ -18,7 +18,7 @@
 </table>
 </div>
 
-<div class="col-lg-6" align="center" style="clear: both;">
+<div class="col-lg-6" align="left" style="clear: both;">
       <u>Update User</u>
 </div>
 
@@ -28,7 +28,10 @@
           <!-- select(form, :user_id, users |> Enum.map(&{&1.name, &1.id})) -->
           <!-- The following is a re-write of the above for this usage. dskList is a list of maps derived from the dskMap. -->
           <!-- The dskList is of the form [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}, ...] -->
+
           <%= select f, :selected_dsk,  @dskList |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@user.dataSourceId]["id"]  %>
+          <!-- Must be of the for ["Yes":], ["Yes" :] will bomb! It's an atom... -->
+          <%= select f, :selected_avail, ["Yes": "Yes", "No": "No", "Disabled": "Disabled"], selected: @user.availability["available"] %>
           <%= submit "Submit" %>
       <%end %>
 </div>
