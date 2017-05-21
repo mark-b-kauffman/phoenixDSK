@@ -48,8 +48,10 @@ defmodule PhoenixDSK.UserController do
     {:ok, user} = Lms.get(fqdn, Learn.User, userName) # user as struct
     {:ok, unused} = LearnRestClient.get_data_sources(fqdn)
     dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
-    dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
+    # dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
     # here we need a util method that takes the dskMap and returns a list in the above form....
+    # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
+    dskList = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
     render conn, "show.html", user: user, dskMap: dskMap, dskList: dskList
   end
 
