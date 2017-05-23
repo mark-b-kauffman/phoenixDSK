@@ -176,7 +176,7 @@ defmodule LearnRestClient do
 
    """
    def get_json_request_body(body) do
-     "{#{body}}"
+     "#{body}"
    end
 
    @doc """

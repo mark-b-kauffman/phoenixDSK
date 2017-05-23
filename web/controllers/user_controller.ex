@@ -57,13 +57,21 @@ defmodule PhoenixDSK.UserController do
 
   def update(conn, %{"userName" => userName, "session" => session}) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
+    fqdnAtom = String.to_atom(fqdn)
     {:ok, user} = LearnRestClient.get_user_with_userName(fqdn, userName)
     # Update the user in the LMS with this line.
     Logger.info "DSK value selected #{session["selected_dsk"]}"
     Logger.info "'available' value selected #{session["selected_avail"]}"
+    new_avail = session["selected_avail"]
+    new_dsk = session["selected_dsk"]
     Logger.info user["id"]
-    # Update user availability syntax
-    # newUser = %{aUser | "availability" => %{"available" => "No"}}
+    # Create a new user with the selected values. Elixir values are immutable so have to create a new one.
+    newUser = %{user | "availability" => %{"available" => "#{new_avail}"}, "dataSourceId" => "#{new_dsk}"}
+    {:ok, body} = Poison.encode(newUser)
+    options = LearnRestClient.get_json_potion_options(fqdnAtom, body)
+    userUrl = LearnRestClient.get_user_url(fqdn, "userName:#{userName}")
+    response = HTTPotion.patch(userUrl, options)
+    Logger.info response.body
     # Now show.
     show(conn, %{"userName" => userName})
   end #update
