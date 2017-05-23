@@ -57,10 +57,13 @@ defmodule PhoenixDSK.UserController do
 
   def update(conn, %{"userName" => userName, "session" => session}) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
-    {:ok, user} = Lms.get(fqdn, Learn.User, userName)
+    {:ok, user} = LearnRestClient.get_user_with_userName(fqdn, userName)
     # Update the user in the LMS with this line.
     Logger.info "DSK value selected #{session["selected_dsk"]}"
     Logger.info "'available' value selected #{session["selected_avail"]}"
+    Logger.info user["id"]
+    # Update user availability syntax
+    # newUser = %{aUser | "availability" => %{"available" => "No"}}
     # Now show.
     show(conn, %{"userName" => userName})
   end #update
