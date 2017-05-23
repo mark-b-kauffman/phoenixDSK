@@ -24,13 +24,15 @@
 
 <div class="col-lg-6" style="clear: both;">
       <%= form_for @conn, user_path(@conn, :update, @user.userName), [as: :session], fn f -> %>
-          <!-- %= select f, :newdsk, ["SYSTEM": "SYSTEM", "other": "other"], selected: @dskMap[@user.dataSourceId]["externalId"] % -->
+          <%# Here's the syntax to write a comment that isn't rendered. Same as Rails.
+          <%= select f, :newdsk, ["SYSTEM": "SYSTEM", "other": "other"], selected: @dskMap[@user.dataSourceId]["externalId"] % -->
           <!-- select(form, :user_id, users |> Enum.map(&{&1.name, &1.id})) -->
           <!-- The following is a re-write of the above for this usage. dskList is a list of maps derived from the dskMap. -->
           <!-- The dskList is of the form [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}, ...] -->
+          %>
 
           <%= select f, :selected_dsk,  @dskList |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@user.dataSourceId]["id"]  %>
-          <!-- Must be of the for ["Yes":], ["Yes" :] will bomb! It's an atom... -->
+          <%#  Must be of the format ["Yes":], ["Yes" :] will bomb! It's an atom...  %>
           <%= select f, :selected_avail, ["Yes": "Yes", "No": "No", "Disabled": "Disabled"], selected: @user.availability["available"] %>
           <%= submit "Submit" %>
       <%end %>
