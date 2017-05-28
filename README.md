@@ -1,6 +1,11 @@
 # PhoenixDSK
 # See PHOENIX_LICENSE.md for the Phoenix Framework License
 # See BLACKBOARD_LICENSE.md for the license pertaining to the portions of this application specific to Blackboard Learn.
+# 2017.05.27 MBK I built this as a default Phoenix project using an Ecto Repo on to of Postgres.
+# Since I'm not using any of that functionality for this project I decided to remove it. I did so 
+# using the procedure desribed with the following:
+# https://stackoverflow.com/questions/38497148/remove-ecto-from-existing-phoenix-project
+# https://github.com/ospaarmann/remove_ecto_from_phoenix/commit/95f9f1c8c26c7a63f5563eb29491235bc64c41fb
 
 To try the different modules in iex:
   * $ iex -S mix
@@ -8,7 +13,6 @@ To try the different modules in iex:
 To start this Phoenix app you must do the following the first time after checkout:
 
   * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
   * Install Node.js dependencies with `npm install`
 
 The above only need doing the first time, after that you can just start the server with the following:

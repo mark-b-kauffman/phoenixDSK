@@ -6,9 +6,9 @@
 
 use Mix.Config
 
-# General application configuration
-config :phoenixDSK,
-  ecto_repos: [PhoenixDSK.Repo]
+# General application configuration # Remove this and the following two lines, elminiating ecto Repo
+# config :phoenixDSK,
+#   ecto_repos: [PhoenixDSK.Repo]
 
 # Configures the endpoint
 config :phoenixDSK, PhoenixDSK.Endpoint,

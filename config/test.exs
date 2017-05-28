@@ -9,11 +9,3 @@ config :phoenixDSK, PhoenixDSK.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-# Configure your database
-config :phoenixDSK, PhoenixDSK.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "phoenixdsk_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox

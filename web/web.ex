@@ -18,21 +18,13 @@ defmodule PhoenixDSK.Web do
 
   def model do
     quote do
-      use Ecto.Schema
-
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
+	# define commmon model funtionalitiy
     end
   end
 
   def controller do
     quote do
       use Phoenix.Controller
-
-      alias PhoenixDSK.Repo
-      import Ecto
-      import Ecto.Query
 
       import PhoenixDSK.Router.Helpers
       import PhoenixDSK.Gettext
@@ -65,9 +57,6 @@ defmodule PhoenixDSK.Web do
     quote do
       use Phoenix.Channel
 
-      alias PhoenixDSK.Repo
-      import Ecto
-      import Ecto.Query
       import PhoenixDSK.Gettext
     end
   end

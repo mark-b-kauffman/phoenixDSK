@@ -20,23 +20,12 @@ defmodule PhoenixDSK.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias PhoenixDSK.Repo
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
-
-
       # The default endpoint for testing
       @endpoint PhoenixDSK.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(PhoenixDSK.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(PhoenixDSK.Repo, {:shared, self()})
-    end
 
     :ok
   end
