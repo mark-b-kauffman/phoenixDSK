@@ -57,7 +57,7 @@ defmodule PhoenixDSK.UserController do
     # here we need a util method that takes the dskMap and returns a list in the above form....
     # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
     dskList = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
-    render conn, "show.html", user: user, dskMap: dskMap, dskList: dskList
+    render conn, "show.html", userName: userName, user: user, dskMap: dskMap, dskList: dskList
   end
 
   @doc """
