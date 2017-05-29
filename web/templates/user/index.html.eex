@@ -14,7 +14,7 @@
         </tr>
       <%= for user <- @userList do %>
         <tr>
-          <td> <%= user.userName %> </td>
+          <td> <%= link user.userName, to: user_path(@conn, :show, user.userName) %> </td>
           <td> <%= user.contact["email"] %> </td>
           <td> <%= @dskMap[user.dataSourceId]["externalId"] %> </td>
           <td> <%= user.availability["available"] %> </td>
