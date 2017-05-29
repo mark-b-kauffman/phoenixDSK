@@ -13,4 +13,6 @@ defmodule PhoenixDSK.DskController do
     render conn, "index.html", dskList: dskList, fqdn: fqdn
   end
 
+  # TODO: write show for a DSK.
+
 end

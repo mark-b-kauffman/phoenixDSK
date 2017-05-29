@@ -6,11 +6,16 @@
 
 <div class="col-lg-12">
       <table class="table">
+        <tr  style="font-weight:bold">
+          <td> ID </td>
+          <td> externalId </td>
+          <td> description </td>
+        </tr>
       <%= for dsk <- @dskList do %>
         <tr>
-          <td> id:<%= dsk.id %> </td>
-          <td> externalId:<%= dsk.externalId %> </td>
-          <td> description:<%= dsk.description %> </td>
+          <td> <%= dsk.id %> </td>
+          <td> <%= dsk.externalId %> </td>
+          <td> <%= dsk.description %> </td>
         </tr>
       <%= end %>
     </table>
