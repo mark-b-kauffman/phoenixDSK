@@ -30,23 +30,28 @@ defmodule PhoenixDSK.UserController do
       "externalId" => "INTERNAL", "id" => "_1_1"}, ... }
   """
 
-  # See http://www.phoenixframework.org/docs/adding-pages
-  # The core of this action is render conn, "index.html". This tells Phoenix
-  # to find a template called index.html.eex and render it. Phoenix will look
-  # for the template in a directory named after our controller,
-  # so web/templates/user.
+  @doc """
+  From router: get "/users", UserController, :index
+  See http://www.phoenixframework.org/docs/adding-pages
+  The core of this action is render conn, "index.html". This tells Phoenix
+  to find a template called index.html.eex and render it. Phoenix will look
+  for the template in a directory named after our controller,
+  so web/templates/user.
+  """
   def index(conn, _params) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, userList} = Lms.all(fqdn, Learn.User)
-    {:ok, intionallyUnused, dskMap } = LearnRestClient.get_data_sources(fqdn)
-    # dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
+    {:ok, intentionally, dskMap } = LearnRestClient.get_data_sources(fqdn)
     render conn, "index.html", userList: userList, dskMap: dskMap, fqdn: fqdn
   end
 
+  @doc """
+  From router: get "/users/:userName", UserController, :show
+  """
   def show(conn, %{"userName" => userName}) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, user} = Lms.get(fqdn, Learn.User, userName) # user as struct
-    {:ok, intionallyUnused, dskMap} = LearnRestClient.get_data_sources(fqdn)
+    {:ok, intentionally, dskMap} = LearnRestClient.get_data_sources(fqdn)
     # dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
     # dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
     # here we need a util method that takes the dskMap and returns a list in the above form....
@@ -55,9 +60,11 @@ defmodule PhoenixDSK.UserController do
     render conn, "show.html", user: user, dskMap: dskMap, dskList: dskList
   end
 
+  @doc """
+  From router: post "/users/:userName", UserController, :update
+  """
   def update(conn, %{"userName" => userName, "session" => session}) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
-    fqdnAtom = String.to_atom(fqdn)
     {:ok, user} = LearnRestClient.get_user_with_userName(fqdn, userName)
     # Update the user in the LMS with this line.
     Logger.info "DSK value selected #{session["selected_dsk"]}"
@@ -65,13 +72,11 @@ defmodule PhoenixDSK.UserController do
     new_avail = session["selected_avail"]
     new_dsk = session["selected_dsk"]
     Logger.info user["id"]
-    # Create a new user with the selected values. Elixir values are immutable so have to create a new one.
+    # Create a new user with the selected values.
+    # Elixir values are immutable so have to create a new one.
     newUser = %{user | "availability" => %{"available" => "#{new_avail}"}, "dataSourceId" => "#{new_dsk}"}
-    {:ok, body} = Poison.encode(newUser)
-    options = LearnRestClient.get_json_potion_options(fqdnAtom, body)
-    userUrl = LearnRestClient.get_user_url(fqdn, "userName:#{userName}")
-    response = HTTPotion.patch(userUrl, options)
-    Logger.info response.body
+    # Call the REST APIs to update the user.
+    {:ok} = LearnRestClient.update_user_with_userName(fqdn, userName, newUser)
     # Now show.
     show(conn, %{"userName" => userName})
   end #update

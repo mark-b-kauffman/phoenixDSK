@@ -3,7 +3,7 @@
 # Date : 2017.03
 # 2017.03.24 MBK - moved appkey and appsecret to config/dev.exs.
 defmodule LearnRestClient do
-
+  require Logger
   # We want to be able to access these module constants outside of the module.
   # We define a key-value map with all of them. The appkey and secret are not valid.
   # Change them to be the app key and secret you get for your app from developer.blackboard.com.
@@ -275,8 +275,24 @@ defmodule LearnRestClient do
   end
 
   @doc """
-  Get the user URL.
+  Update the user with userId to have the new userData
+  """
+  def update_user(fqdn, userId, userData) do
+    fqdnAtom = String.to_atom(fqdn)
+    {:ok, body} = Poison.encode(userData)
+    options = LearnRestClient.get_json_potion_options(fqdnAtom, body)
+    userUrl = LearnRestClient.get_user_url(fqdn, userId)
+    response = HTTPotion.patch(userUrl, options)
+    Logger.info response.body
+    {:ok}
+  end
 
+  def update_user_with_userName(fqdn, userName, userData) do
+    update_user(fqdn, "userName:"<>userName, userData)
+  end
+
+  @doc """
+  Get the user URL.
   """
   def get_user_url(fqdn,userId) do
     # Use String interpolation to take the value of the userId and add it.
