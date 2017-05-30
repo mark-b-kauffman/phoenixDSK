@@ -7,6 +7,12 @@
 # https://stackoverflow.com/questions/38497148/remove-ecto-from-existing-phoenix-project
 # https://github.com/ospaarmann/remove_ecto_from_phoenix/commit/95f9f1c8c26c7a63f5563eb29491235bc64c41fb
 
+# 2015.05.30 MBK TODO
+# 	HTTPoison, Verify Cert for SSL, eliminate possiblity of MITM
+#	Refresh REST Auth token on expiration
+#	Paging on the dsks and users index pages.
+
+
 To try the different modules in iex:
   * $ iex -S mix
 
@@ -30,7 +36,8 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
 
-## This specific application's organization
+## This specific application's organization follows:
+
 LearnRestClient and LearnRestUtil encapsulate code necessary to make REST calls
 to a Learn server. LearnRestClient uses an Elixir Agent to hold the state of a
 REST client for multiple Learn servers.
@@ -78,5 +85,3 @@ start section of lib/phoenixDSK.ex with the line:
 
  LearnRestClient.all(fqdn,Learn.User)
 
- 2017.04.10 - MBK - We don't do any paging as of this writing so we only get the first page.
- This covers what I've written so far.
