@@ -9,6 +9,15 @@ defmodule PhoenixDSK.Lms do
   2017.04.18 - Can't generalize here because we are calling the particular
   get method for the given structure type. Hence there is an all method for
   Learn.Dsk, and another all method for Learn.User, etc.
+  Example Usage:
+    iex(1)> fqdn = "bd-partner-a-original.blackboard.com"
+      "bd-partner-a-original.blackboard.com"
+    iex(2)> PhoenixDSK.Lms.all(fqdn,Learn.Dsk)
+    {:ok,
+    [%Learn.Dsk{description: "Internal data source used for associating records that are created for use by the Bb system.",
+      externalId: "INTERNAL", id: "_1_1"},
+      %Learn.Dsk{description: "System data source used for associating records that are created via web browser.",
+      externalId: "SYSTEM", id: "_2_1"},...
   """
   def all(fqdn, Learn.Dsk) do
     {:ok, dskResponseMap, dskMapUnused} = LearnRestClient.get_data_sources(fqdn)
