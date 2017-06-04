@@ -1,4 +1,4 @@
-# File: user.ex
+# File: web/models/user.ex
 # Copyright (C) 2017, Blackboard Inc.
 # Author: Mark Bykerk Kauffman, 2017.03
 # All rights reserved.

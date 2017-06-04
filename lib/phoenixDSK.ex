@@ -1,7 +1,10 @@
 # File: phoenixDSK.ex
 # Author: Mark Kauffman - used the generate scripts to create this.
-# 2017.03.27 MBK - Adding code to load the LearnRestClient here.
-#   We start another supervisor to load the LearnClient.
+# 2017.03.27 MBK - Adding code to start the RestClientAgent.
+#   The RestClientAgent reads configuration to determine the fqdn of
+# Learn server to connect to, then starts the LearnRestClient to
+# make the connection. The LearnRestClient is what application uses to
+# make REST calls to the Learn server..
 
 defmodule PhoenixDSK do
   use Application
