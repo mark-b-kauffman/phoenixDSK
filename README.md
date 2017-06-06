@@ -7,6 +7,8 @@
 # https://stackoverflow.com/questions/38497148/remove-ecto-from-existing-phoenix-project
 # https://github.com/ospaarmann/remove_ecto_from_phoenix/commit/95f9f1c8c26c7a63f5563eb29491235bc64c41fb
 
+# git reset --hard origin/master Then copy the hidden dev.exs file for use.
+
 # 2015.05.30 MBK TODO
 # 	HTTPoison, Verify Cert for SSL, eliminate possiblity of MITM
 #	Refresh REST Auth token on expiration
