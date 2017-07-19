@@ -13,13 +13,13 @@
 
   <body>
     <div class="container">
-      <header class="header">
+      <header class="header"> <!-- MBK 2017.07.19 span no longer image. -->
         <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
+          <ul class="nav nav-pills pull-left">
+            <li><a href="/users">Users</a></li>
           </ul>
         </nav>
-        <span class="logo"></span>
+        <span class="lead">PhoenixDSK</span>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
