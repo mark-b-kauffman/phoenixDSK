@@ -19,7 +19,7 @@
             <li><a href="/users">Users</a></li>
           </ul>
         </nav>
-        <span class="lead">PhoenixDSK</span>
+        <p class=text-center><span class="lead">PhoenixDSK</span></p>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
