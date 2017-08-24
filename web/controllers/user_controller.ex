@@ -69,6 +69,8 @@ defmodule PhoenixDSK.UserController do
     # Update the user in the LMS with this line.
     Logger.info "DSK value selected #{session["selected_dsk"]}"
     Logger.info "'available' value selected #{session["selected_avail"]}"
+    Logger.info "newUser:#{session["newUser"]}"
+    Logger.info "userName:#{userName}"
     new_avail = session["selected_avail"]
     new_dsk = session["selected_dsk"]
     Logger.info user["id"]

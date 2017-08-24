@@ -38,6 +38,17 @@
           <%= submit "Submit" %>
       <%end %>
 </div>
+
+<div class="col-lg-6" align="left" style="clear: both;">
+      <u>Select a Different User</u>
+</div>
+<div class="col-lg-6" style="clear: both;">
+    <%= form_for @conn, user_path(@conn, :update, @user.userName), [as: :session], fn f2 -> %>
+      <%= text_input f2, :newUser %>
+      <%= submit "Change" %>
+    <%end %>
+</div>
+
 <%= else %>
 <div class="jumbotron">
   <h4><%= @userName %> Not Found </h4>
