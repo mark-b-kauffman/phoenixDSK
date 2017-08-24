@@ -31,7 +31,7 @@
           <!-- The following is a re-write of the above for this usage. dskList is a list of maps derived from the dskMap. -->
           <!-- The dskList is of the form [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}, ...] -->
           %>
-
+          <%= hidden_input f, :newUser, [value: "#{@user.userName}"] %>
           <%= select f, :selected_dsk,  @dskList |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@user.dataSourceId]["id"]  %>
           <%#  Must be of the format ["Yes":], ["Yes" :] will bomb! It's an atom...  %>
           <%= select f, :selected_avail, ["Yes": "Yes", "No": "No", "Disabled": "Disabled"], selected: @user.availability["available"] %>
@@ -44,7 +44,7 @@
 </div>
 <div class="col-lg-6" style="clear: both;">
     <%= form_for @conn, user_path(@conn, :update, @user.userName), [as: :session], fn f2 -> %>
-      <%= text_input f2, :newUser %>
+      <%= text_input f2, :newUser, [value: "#{@user.userName}"] %>
       <%= submit "Change" %>
     <%end %>
 </div>
