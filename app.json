@@ -1,0 +1,25 @@
+{
+  "name": "phoenixDSK",
+  "description": "A Blackboard Learn REST Application Modeled after the YorkDSK B2. Built on Elixir/Phoenix.",
+  "repository": "https://github.com/mark-b-kauffman/phoenixDSK",
+  "keywords": ["elixir", "phoenix", "Blackboard", "REST", "DSK"],
+  "addons": [
+    "heroku-postgresql:hobby-dev"
+  ],
+  "env": {
+    "MIX_ENV": "prod",
+    "SECRET_KEY_BASE": {
+      "generator": "secret"
+    },
+    "APP_KEY": "Replace this with your REST app key.",
+    "APP_SECRET": "Replace this with your REST app Secret."
+  },
+  "scripts": {
+    "postdeploy": "mix ecto.migrate"
+  },
+  "buildpacks": [
+    { "url": "https://github.com/HashNuke/heroku-buildpack-elixir.git" },
+    { "url": "https://github.com/gjaldon/heroku-buildpack-phoenix-static.git" }
+  ],
+  "success_url": "/register"
+}
