@@ -14,6 +14,8 @@
 #	Refresh REST Auth token on expiration
 #	Paging on the dsks and users index pages.
 
+Quick and Easy:
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mark-b-kauffman/phoenixDSK)
 
 To try the different modules in iex:
   * $ iex -S mix
