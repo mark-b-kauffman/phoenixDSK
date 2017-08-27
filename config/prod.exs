@@ -63,4 +63,5 @@ config :logger, level: :info
 config :phoenixDSK, PhoenixDSK.Endpoint,
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   appkey: System.get_env("APP_KEY"),
-  appsecret: System.get_env("APP_SECRET")
+  appsecret: System.get_env("APP_SECRET"),
+  learnserver: System.get_env("LEARNSERVER")

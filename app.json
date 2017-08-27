@@ -13,6 +13,7 @@
     },
     "APP_KEY": "Replace this with your REST app key.",
     "APP_SECRET": "Replace this with your REST app Secret."
+    "LEARNSERVER": "Replace this with the FQDN of your Learn server."
   },
   "scripts": {
   },
