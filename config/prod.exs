@@ -58,4 +58,9 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs" # Commented out. Use an environment variable for Heroku deploy
+# Configure secret_key_base for cookie-based session storage
+config :phoenixDSK, PhoenixDSK.Endpoint,
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
+  appkey: System.get_env("APP_KEY"),
+  appsecret: System.get_env("APP_SECRET")
