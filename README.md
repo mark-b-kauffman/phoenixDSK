@@ -1,21 +1,25 @@
 # PhoenixDSK
-# See BLACKBOARD_LICENSE.md for the license pertaining to the portions of this application specific to Blackboard Learn.
-# See PHOENIX_LICENSE.md for the Phoenix Framework License
-# 2017.05.27 MBK I built this as a default Phoenix project using an Ecto Repo on to of Postgres.
-# Since I'm not using any of that functionality for this project I decided to remove it. I did so
-# using the procedure desribed with the following:
-# https://stackoverflow.com/questions/38497148/remove-ecto-from-existing-phoenix-project
-# https://github.com/ospaarmann/remove_ecto_from_phoenix/commit/95f9f1c8c26c7a63f5563eb29491235bc64c41fb
+See BLACKBOARD_LICENSE.md for the license pertaining to the portions of this application specific to Blackboard Learn.
 
-# git reset --hard origin/master Then copy the hidden dev.exs file for use.
+See PHOENIX_LICENSE.md for the Phoenix Framework License
 
-# 2015.05.30 MBK TODO
-# 	HTTPoison, Verify Cert for SSL, eliminate possiblity of MITM
-#	Refresh REST Auth token on expiration
-#	Paging on the dsks and users index pages.
-
-Quick and Easy:
+## Quick and Easy Deployment to Heroku:
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mark-b-kauffman/phoenixDSK)
+
+## Notes for building and deploying locally:
+
+2017.05.27 MBK I built this as a default Phoenix project using an Ecto Repo on to of Postgres.
+Since I'm not using any of that functionality for this project I decided to remove it. I did so
+using the procedure described with the following:
+https://stackoverflow.com/questions/38497148/remove-ecto-from-existing-phoenix-project
+https://github.com/ospaarmann/remove_ecto_from_phoenix/commit/95f9f1c8c26c7a63f5563eb29491235bc64c41fb
+
+git reset --hard origin/master Then copy the hidden dev.exs file for use.
+
+2015.05.30 MBK TODO
+HTTPoison, Verify Cert for SSL, eliminate possiblity of MITM
+Refresh REST Auth token on expiration
+Paging on the dsks and users index pages.
 
 To try the different modules in iex:
   * $ iex -S mix
