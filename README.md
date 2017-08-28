@@ -4,7 +4,13 @@ See BLACKBOARD_LICENSE.md for the license pertaining to the portions of this app
 See PHOENIX_LICENSE.md for the Phoenix Framework License
 
 ## Quick and Easy Deployment to Heroku:
+1. Get an application ID, key, and Secret from https://developer.blackboard.com
+2. Set up the REST application on your Learn server using the application ID from #1.
+3. Click the button below and fill in the application key, secret, and Learn URL.
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mark-b-kauffman/phoenixDSK)
+4. Wait a bit while the application deploys to your Heroku server.
+5. Click the View button.
+6. Remove the /register from the page that is displayed to view the application.
 
 ## Notes for building and deploying locally:
 
