@@ -36,6 +36,16 @@ defmodule PhoenixDSK.Lms do
   end
 
   @doc """
+  Get all the courses as a list of Learn.User structs
+  This behavior is analogous to a Repo.
+  """
+  def all(fqdn, Learn.Course) do
+    {:ok, coursesResponseMap} = LearnRestClient.get_courses(fqdn)
+    {:ok, courseList} = LearnRestUtil.listofmaps_to_structs(Learn.Course,coursesResponseMap["results"])
+    {:ok, courseList}
+  end
+
+  @doc """
   Get a user with the given userName. userName is in the format mkauffman
   This behavior is analogous to a Repo.
   """
@@ -43,6 +53,16 @@ defmodule PhoenixDSK.Lms do
     {:ok, userResponse} = LearnRestClient.get_user_with_userName(fqdn, userName)
     user = LearnRestUtil.to_struct(Learn.User, userResponse)
     {:ok, user}
+  end
+
+  @doc """
+  Get a course with the given courseName. courseId is in the format abc-123, no spaces!
+  This behavior is analogous to a Repo.
+  """
+  def get(fqdn, Learn.Course, courseId) do
+    {:ok, courseResponse} = LearnRestClient.get_course_with_courseId(fqdn, courseId)
+    course = LearnRestUtil.to_struct(Learn.Course, courseResponse)
+    {:ok, course}
   end
 
 end

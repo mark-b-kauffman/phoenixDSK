@@ -131,6 +131,89 @@ defmodule LearnRestClient do
      {:ok, %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => theDskMap}}
    end
 
+   ##### COURSES #####
+
+   @doc """
+   Get Courses from the remote system specified by the fqdn
+   Parses the JSON content in the response body to a map.
+   Returns the Map.
+   To Do: Implement Paging
+   """
+   def get_courses(fqdn) do
+     fqdnAtom = String.to_atom(fqdn)
+     url = get_courses_url(fqdn)
+     potionOptions = get_json_potion_options(fqdnAtom,"")
+     response = HTTPotion.get(url, potionOptions)
+     {:ok, coursesResponseMap} = Poison.decode(response.body)
+     # Unlike DSKs, we don't store these in the LearnRestClient
+     # We keep the DSKs around - because of an early design
+     # decision that could possibly be changed later.
+     {:ok, coursesResponseMap}
+   end
+
+   @doc """
+   Get a Course from the remote system specified by the fqdn and courseId
+   id is the PK1 in the format _123_1 as seen in the address field of the
+   browser when accessing the course.
+   Parses the JSON content in the response body to a map.
+   Returns the Map.
+
+   """
+   def get_course(fqdn, id) do
+     fqdnAtom = String.to_atom(fqdn)
+     url = get_course_url(fqdn, id)
+     potionOptions = get_json_potion_options(fqdnAtom,"")
+     response = HTTPotion.get(url, potionOptions)
+     {:ok, course} = Poison.decode(response.body)
+     {:ok, course}
+   end
+
+   @doc """
+   Get a Course from the remote system specified by the fqdn and courseId
+   courseId must be the courseId. This is a convenience method
+   Parses the JSON content in the response body to a map.
+   Returns the Map.
+
+   """
+   def get_course_with_courseId(fqdn, courseId) do
+     get_course(fqdn,"courseId:"<>courseId)
+   end
+
+   @doc """
+   Update the course with id (pk1 ex: _123_1) to have the new courseData
+   """
+   def update_course(fqdn, id, courseData) do
+     fqdnAtom = String.to_atom(fqdn)
+     {:ok, body} = Poison.encode(courseData)
+     options = LearnRestClient.get_json_potion_options(fqdnAtom, body)
+     courseUrl = LearnRestClient.get_course_url(fqdn, id)
+     response = HTTPotion.patch(courseUrl, options)
+     Logger.info response.body
+     {:ok}
+   end
+
+   def update_course_with_courseId(fqdn, courseId, courseData) do
+     update_course(fqdn, "courseId:"<>courseId, courseData)
+   end
+
+   @doc """
+   Get the course URL.
+   """
+   def get_course_url(fqdn,id) do
+     # Use String interpolation to take the value of the id and add it.
+     "https://"<>fqdn<>@kv[:coursesendpoint]<>"/#{id}"
+   end
+
+   @doc """
+   Get the courses URL.
+
+   """
+   def get_courses_url(fqdn) do
+     "https://"<>fqdn<>@kv[:coursesendpoint]
+   end
+
+   ##### DATA SOURCES #####
+
    @doc """
    Get dataSources from the remote system specified by the fqdn
    Parses the JSON content in the response body to a map.
@@ -226,6 +309,8 @@ defmodule LearnRestClient do
      headers: ["Content-Type": "application/x-www-form-urlencoded"],
      basic_auth: {appkey,appsecret}]
   end
+
+  ##### USERS #####
 
   @doc """
   Get Users from the remote system specified by the fqdn
