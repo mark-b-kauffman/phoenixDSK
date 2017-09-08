@@ -1,0 +1,24 @@
+<!-- templates/course/index.html.eex -->
+<div class="jumbotron">
+  <h4>Courses from <%= @fqdn %> </h4>
+  <h6>Rendered by templates/course/index.html.eex</h6>
+</div>
+
+<div class="col-lg-12">
+      <table class="table">
+        <tr  style="font-weight:bold">
+          <td> courseId </td>
+          <td> name </td>
+          <td> dsk externalId </td>
+          <td> availability </td>
+        </tr>
+      <%= for course <- @courseList do %>
+        <tr>
+          <td> <%= link course.courseId, to: course_path(@conn, :show, course.courseId) %> </td>
+          <td> <%= course.name %> </td>
+          <td> <%= @dskMap[course.dataSourceId]["externalId"] %> </td>
+          <td> <%= course.availability["available"] %> </td>
+        </tr>
+      <%= end %>
+    </table>
+</div>

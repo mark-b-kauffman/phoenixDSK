@@ -20,15 +20,13 @@ defmodule PhoenixDSK.Router do
 
     get "/dsks", DskController, :index
 
-    get "/courses", CourseController, :index
-    get "/courses/:courseId", CourseController, :show
-    post "/courses/:courseId", CourseController, :update
-
     get "/users", UserController, :index
     get "/users/:userName", UserController, :show
     post "/users/:userName", UserController, :update
 
-
+    get "/courses", CourseController, :index
+    get "/courses/:courseId", CourseController, :show
+    post "/courses/:courseId", CourseController, :update
 
     # Keep the following around to demonstrate Phoenix hot code reloading!
     get "/hello", HelloController, :index

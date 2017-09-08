@@ -1,0 +1,53 @@
+<!-- templates/user/show.html.eex -->
+<%= if @course.courseId do %>
+<div class="jumbotron">
+  <h4><%= @course.courseId %> </h4>
+  <h6>Rendered by templates/course/show.html.eex.</h6>
+</div>
+<div class="col-lg-6">
+  <table class="table">
+    <tr  style="font-weight:bold">
+      <td>courseId</td>
+      <td>dsk externalId</td>
+      <td>availability</td>
+    </tr>
+    <tr>
+      <td> <%= @course.courseId %> </td>
+      <td> <%= @dskMap[@course.dataSourceId]["externalId"] %> </td>
+      <td> <%= @course.availability["available"] %> </td>
+    </tr>
+</table>
+</div>
+
+<div class="col-lg-6" align="left" style="clear: both;">
+      <b>Update Course</b>
+</div>
+
+<div class="col-lg-6" style="clear: both;">
+      <%= form_for @conn, course_path(@conn, :update, @course.courseId), [as: :session], fn f -> %>
+          <%# See users code for details. It was a simple matter to copy that here and update it for a course.
+          %>
+          <%= hidden_input f, :newCourse, [value: "#{@course.courseId}"] %>
+          <%= select f, :selected_dsk,  @dskList |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@course.dataSourceId]["id"]  %>
+          <%#  Must be of the format ["Yes":], ["Yes" :] will bomb! It's an atom...  %>
+          <%= select f, :selected_avail, ["Yes": "Yes", "No": "No", "Disabled": "Disabled"], selected: @course.availability["available"] %>
+          <%= submit "Submit" %>
+      <%end %>
+</div>
+
+<div class="col-lg-6" align="left" style="clear: both;">
+      <b>Select a Different Course (courseId)</b>
+</div>
+<div class="col-lg-6" style="clear: both;">
+    <%= form_for @conn, course_path(@conn, :update, @course.courseId), [as: :session], fn f2 -> %>
+      <%= text_input f2, :newCourse, [value: "#{@course.courseId}"] %>
+      <%= submit "Change" %>
+    <%end %>
+</div>
+
+<%= else %>
+<div class="jumbotron">
+  <h4><%= @courseId %> Not Found </h4>
+  <h6>Rendered by templates/course/show.html.eex.</h6>
+</div>
+<%= end %>
