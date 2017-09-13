@@ -1,6 +1,6 @@
 <!-- templates/course/index.html.eex -->
 <div class="jumbotron">
-  <h4>Courses from <%= @fqdn %> </h4>
+  <h4>Courses & Organizations from <%= @fqdn %> </h4>
   <h6>Rendered by templates/course/index.html.eex</h6>
 </div>
 
@@ -8,6 +8,7 @@
       <table class="table">
         <tr  style="font-weight:bold">
           <td> courseId </td>
+          <td> organization? </td>
           <td> name </td>
           <td> dsk externalId </td>
           <td> availability </td>
@@ -15,6 +16,7 @@
       <%= for course <- @courseList do %>
         <tr>
           <td> <%= link course.courseId, to: course_path(@conn, :show, course.courseId) %> </td>
+          <td> <%= course.organization %> </td>
           <td> <%= course.name %> </td>
           <td> <%= @dskMap[course.dataSourceId]["externalId"] %> </td>
           <td> <%= course.availability["available"] %> </td>

@@ -8,11 +8,13 @@
   <table class="table">
     <tr  style="font-weight:bold">
       <td>courseId</td>
+      <td>organization?</td>
       <td>dsk externalId</td>
       <td>availability</td>
     </tr>
     <tr>
       <td> <%= @course.courseId %> </td>
+      <td> <%= @course.organization %> </td>
       <td> <%= @dskMap[@course.dataSourceId]["externalId"] %> </td>
       <td> <%= @course.availability["available"] %> </td>
     </tr>
