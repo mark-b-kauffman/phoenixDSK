@@ -24,14 +24,14 @@ https://github.com/ospaarmann/remove_ecto_from_phoenix/commit/95f9f1c8c26c7a63f5
 
 git reset --hard origin/master Then copy the hidden dev.exs file for use.
 If you don't have a hidden dev.exs file, then modify the one you've pulled from github to have your key and secret.
-Then, because of the mods made to run this on Heroku, you will need to set 3 environment varaibles to run locally.
+Then, because of the mods made to run this on Heroku, you will need to set 3 environment variables to run locally.
 The following works on the Mac OSX with a Bash shell.
 $ export LEARNSERVER=<The FQDN of your Learn server here.>
 $ export APP_KEY=<Your REST APP Key here.>
 $ export APP_SECRET=<Your REST APP Secret here.>
 
 2015.05.30 MBK TODO
-HTTPoison, Verify Cert for SSL, eliminate possiblity of MITM
+HTTPoison, Verify Cert for SSL, eliminate possibility of MITM
 Refresh REST Auth token on expiration
 Paging on the dsks and users index pages.
 
