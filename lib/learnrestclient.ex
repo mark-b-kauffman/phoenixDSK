@@ -272,14 +272,49 @@ defmodule LearnRestClient do
       ["Content-Type": "application/json", "Authorization": "Bearer #{accessToken}"]
    end
 
+
+   ##### MEMBERSHIPS #####
+
    @doc """
    Get the course memberships URL.
 
    """
-   def get_memberships_url(fqdn, courseId) do
+   def get_memberships_url_for_course(fqdn, courseId) do
      # Use String interpolation again.
      "https://"<>fqdn<>"/learn/api/public/v1/courses/#{courseId}/users"
    end
+
+   @doc """
+   Get Memberships from the remote system specified by the fqdn and courseId
+   id is the PK1 in the format _123_1 as seen in the address field of the
+   browser when accessing the course.
+   Parses the JSON content in the response body to a map.
+   Returns the Map.
+
+   """
+   def get_memberships_for_course(fqdn, id) do
+     # Logger.info "Enter LearnRestClient.get_memberships_for_course id:#{id}"
+     fqdnAtom = String.to_atom(fqdn)
+     url = get_memberships_url_for_course(fqdn, id)
+     potionOptions = get_json_potion_options(fqdnAtom,"")
+     response = HTTPotion.get(url, potionOptions)
+     {:ok, memberships} = Poison.decode(response.body)
+     # Logger.info "Exit LearnRestClient.get_memberships_for_course"
+     {:ok, memberships}
+   end
+
+   @doc """
+   Get Memberships from the remote system specified by the fqdn and courseId
+   courseId must be the courseId. This is a convenience method
+   Parses the JSON content in the response body to a map.
+   Returns the Map.
+
+   """
+   def get_memberships_for_courseId(fqdn, courseId) do
+     get_memberships_for_course(fqdn,"courseId:"<>courseId)
+   end
+
+  #### OAuth ####
 
   @doc """
   Get the Oauth URL.

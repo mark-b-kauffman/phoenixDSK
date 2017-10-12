@@ -19,6 +19,9 @@ defmodule PhoenixDSK.Lms do
       %Learn.Dsk{description: "System data source used for associating records that are created via web browser.",
       externalId: "SYSTEM", id: "_2_1"},...
   """
+
+  require Logger
+
   def all(fqdn, Learn.Dsk) do
     {:ok, dskResponseMap, dskMapUnused} = LearnRestClient.get_data_sources(fqdn)
     {:ok, dskList} = LearnRestUtil.listofmaps_to_structs(Learn.Dsk,dskResponseMap["results"])
@@ -57,6 +60,7 @@ defmodule PhoenixDSK.Lms do
 
   @doc """
   Get a course with the given courseName. courseId is in the format abc-123, no spaces!
+  Learn does not allow spaces in a courseId.
   This behavior is analogous to a Repo.
   """
   def get(fqdn, Learn.Course, courseId) do
@@ -64,5 +68,17 @@ defmodule PhoenixDSK.Lms do
     course = LearnRestUtil.to_struct(Learn.Course, courseResponse)
     {:ok, course}
   end
+
+  @doc """
+  Get the memberships for a given courseId. courseId is in the format abc-123, no spaces!
+  Learn does not allow spaces in a courseId.
+  """
+  def get(fqdn, Learn.MembershipResults, courseId) do
+    {:ok, membershipResponse} = LearnRestClient.get_memberships_for_courseId(fqdn, courseId)
+    membershipResults = LearnRestUtil.to_struct(Learn.MembershipResults, membershipResponse)
+    Logger.info "Exit get Learn.Membership"
+    {:ok, membershipResults}
+  end
+
 
 end
