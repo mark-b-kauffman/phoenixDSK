@@ -50,6 +50,17 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
+## Troubleshooting
+If things stop working between builds, try wiping everything that gets built and start back with the instructions above for first time after checkout:
+  *  rm mix.lock
+  *  rm -rf deps
+  *  rm -rf _build
+  *  rm -rf priv
+  *  rm -rf node_modules
+  *  sudo rm -rf ~/.npm
+  * Install dependencies with `mix deps.get`
+  * Install Node.js dependencies with `npm install`
+
 ## Learn more
 
   * Official website: http://www.phoenixframework.org/
