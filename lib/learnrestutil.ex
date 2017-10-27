@@ -25,6 +25,13 @@ defmodule LearnRestUtil, do: (
     dsks_to_map(tail, map)
   )
 
+  def listofstructs_to_mapofstructs([], mapout, struct_key ), do: (mapout)
+  def listofstructs_to_mapofstructs( [head|tail], mapout, struct_key ), do: (
+    {:ok, my_key} = Map.fetch(head, struct_key)
+    map = Map.merge(mapout, %{my_key => head})
+    listofstructs_to_mapofstructs(tail, map, struct_key)
+  )
+
   @doc """
   listofmaps_to_structs takes a list of maps
   [%{"a"=>"0", "b"=>"1"},... %{"a" => "7", "b"=>"6"}]
