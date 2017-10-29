@@ -25,6 +25,17 @@ defmodule LearnRestUtil, do: (
     dsks_to_map(tail, map)
   )
 
+@doc """
+  Take  [list, of] structs and turn them into a %{map} of structs where
+  struct_key specifies a value that becomes the key to the struct in the map.
+  ## Examples
+    iex(6)> defmodule Car do defstruct owner: "John", license: "A123", color: "red" end
+    iex(7)> jane_car = %Car{owner: "Jane", license: "A124"}
+    iex(8)> listofcars = [jane_car, john_car]
+    iex(9)> mapofcars = LearnRestUtil.listofstructs_to_mapofstructs(listofcars, %{}, :license)
+    %{"A123" => %Car{color: "red", license: "A123", owner: "John"},
+  "A124" => %Car{color: "red", license: "A124", owner: "Jane"}}
+"""
   def listofstructs_to_mapofstructs([], mapout, struct_key ), do: (mapout)
   def listofstructs_to_mapofstructs( [head|tail], mapout, struct_key ), do: (
     {:ok, my_key} = Map.fetch(head, struct_key)
