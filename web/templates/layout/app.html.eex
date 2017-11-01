@@ -18,6 +18,7 @@
           <ul class="nav nav-pills pull-left">
             <li><a href="/users">Users</a></li>
             <li><a href="/courses">Courses/Organizations</a></li>
+            <li><a href="/memberships">Memberships</a></li>
           </ul>
         </nav>
         <p class=text-center><span class="lead">PhoenixDSK</span></p>

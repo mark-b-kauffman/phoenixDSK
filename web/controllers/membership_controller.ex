@@ -11,13 +11,13 @@ defmodule PhoenixDSK.MembershipController do
     %{"availability" => %{"available" => "Disabled"}, ... }
 
   Regarding the Course data structure
-  iex(3)> {:ok, course} = PhoenixDSK.Lms.get(fqdn, Learn.Course, "mkauffman-student")
-    {:ok,
-      %Learn.Course{availability: %{"available" => "Yes"},
-      contact: %{"email" => "markkauffman2000@gmail.com"}, dataSourceId: "_2_1",
-      externalId: "mkauffman-student", id: "_92_1",
-      name: %{"family" => "Kauffman", "given" => "Mark (Student)",
-      "title" => "student"}, courseName: "mkauffman-student"}}
+  iex(3)> {:ok, course} = PhoenixDSK.Lms.get(fqdn, Learn.Course, "mbk-course-a")
+  {:ok,
+   %Learn.Course{availability: %{"available" => "Yes",
+      "duration" => %{"type" => "Continuous"}}, courseId: "mbk-course-a",
+    dataSourceId: "_2_1", description: "Test course A.",
+    externalId: "mbk-course-a", id: "_3_1", name: "mbk-course-a",
+    organization: false}}
 
   Regarding the dskMap
   iex(4)> dskMap = LearnRestClient.get(fqdnAtom, "dskMap")
@@ -59,8 +59,10 @@ defmodule PhoenixDSK.MembershipController do
       # dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
       # here we need a util method that takes the dskMap and returns a list in the above form....
       # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
-      dskList = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
-      render conn, "courseId/show.html", courseId: courseId, course: course, dskMap: dskMap, dskList: dskList
+      dsk_list = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
+      {:ok, %Learn.MembershipResults{ paging: paging, results: membership_maps }} = Lms.get(fqdn, Learn.MembershipResults, courseId)
+      {:ok, memberships} = LearnRestUtil.listofmaps_to_structs(Learn.Membership, membership_maps)
+      render conn, "courseId/show.html", courseId: courseId, course: course, memberships: memberships, dskMap: dskMap, dskList: dsk_list
   end
 
   @doc """

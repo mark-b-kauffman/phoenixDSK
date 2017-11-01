@@ -74,10 +74,10 @@ defmodule PhoenixDSK.Lms do
   Learn does not allow spaces in a courseId.
   """
   def get(fqdn, Learn.MembershipResults, courseId) do
-    {:ok, membershipResponse} = LearnRestClient.get_memberships_for_courseId(fqdn, courseId)
-    membershipResults = LearnRestUtil.to_struct(Learn.MembershipResults, membershipResponse)
+    {:ok, membership_response} = LearnRestClient.get_memberships_for_courseId(fqdn, courseId)
+    membership_results = LearnRestUtil.to_struct(Learn.MembershipResults, membership_response)
     Logger.info "Exit get Learn.Membership"
-    {:ok, membershipResults}
+    {:ok, membership_results}
   end
 
 
