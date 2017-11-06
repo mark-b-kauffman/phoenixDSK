@@ -57,9 +57,14 @@ defmodule LearnRestUtil, do: (
   iex(2)> LearnRestUtil.to_struct(Learn.Dsk, amap)
   %Learn.Dsk{description: nil, externalId: nil, id: nil}
   """
-  def listofmaps_to_structs(structType, listOfMaps) do
-    listOfStructs = for n <- listOfMaps, do: LearnRestUtil.to_struct(structType, n)
-    {:ok, listOfStructs}
+  def listofmaps_to_structs(struct_type, list_of_maps) do
+
+    if list_of_maps, do: (
+      list_of_structs = for n <- list_of_maps, do: LearnRestUtil.to_struct(struct_type, n)
+    ), else: (
+      list_of_structs = []
+    )
+    {:ok, list_of_structs}
   end
 
   @doc """
