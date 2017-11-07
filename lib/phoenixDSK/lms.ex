@@ -80,5 +80,15 @@ defmodule PhoenixDSK.Lms do
     {:ok, membership_results}
   end
 
+  @doc """
+  Get the memberships for a given courseId. courseId is in the format abc-123, no spaces!
+  Learn does not allow spaces in a courseId.
+  """
+  def get(fqdn, Learn.MembershipResults, courseId, offset) do
+    {:ok, membership_response} = LearnRestClient.get_memberships_for_courseId(fqdn, courseId, offset)
+    membership_results = LearnRestUtil.to_struct(Learn.MembershipResults, membership_response)
+    Logger.info "Exit get Learn.Membership"
+    {:ok, membership_results}
+  end
 
 end
