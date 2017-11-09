@@ -39,13 +39,25 @@ defmodule PhoenixDSK.Lms do
   end
 
   @doc """
-  Get all the courses as a list of Learn.User structs
+  Get all the courses as a list of Learn.Course structs
   This behavior is analogous to a Repo.
   """
   def all(fqdn, Learn.Course) do
     {:ok, coursesResponseMap} = LearnRestClient.get_courses(fqdn)
     {:ok, courseList} = LearnRestUtil.listofmaps_to_structs(Learn.Course,coursesResponseMap["results"])
     {:ok, courseList}
+  end
+
+  @doc """
+  Get all the memberships as a list of Learn.Membership structs
+  This behavior is analogous to a Repo.
+  """
+  def all(fqdn, courseId, Learn.Membership) do
+    {:ok, %Learn.MembershipResults{ paging: paging, results: membership_maps }} = Lms.get(fqdn, Learn.MembershipResults, courseId)
+    # while paging 
+      {:ok, membership_response} = LearnRestClient.get_nextpage_of_memberships(fqdn, paging["nextPage"])
+    {:ok, memberships} = LearnRestUtil.listofmaps_to_structs(Learn.Membership, membership_maps)
+    {:ok, memberships}
   end
 
   @doc """
@@ -82,6 +94,7 @@ defmodule PhoenixDSK.Lms do
 
   @doc """
   Get the memberships for a given courseId. courseId is in the format abc-123, no spaces!
+  Can specify an offset.
   Learn does not allow spaces in a courseId.
   """
   def get(fqdn, Learn.MembershipResults, courseId, offset) do
