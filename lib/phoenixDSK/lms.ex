@@ -54,7 +54,7 @@ defmodule PhoenixDSK.Lms do
   """
   def all(fqdn, courseId, Learn.Membership) do
     {:ok, %Learn.MembershipResults{ paging: paging, results: membership_maps }} = Lms.get(fqdn, Learn.MembershipResults, courseId)
-    # while paging 
+    # while paging
       {:ok, membership_response} = LearnRestClient.get_nextpage_of_memberships(fqdn, paging["nextPage"])
     {:ok, memberships} = LearnRestUtil.listofmaps_to_structs(Learn.Membership, membership_maps)
     {:ok, memberships}
@@ -88,19 +88,19 @@ defmodule PhoenixDSK.Lms do
   def get(fqdn, Learn.MembershipResults, courseId) do
     {:ok, membership_response} = LearnRestClient.get_memberships_for_courseId(fqdn, courseId)
     membership_results = LearnRestUtil.to_struct(Learn.MembershipResults, membership_response)
-    Logger.info "Exit get Learn.Membership"
+
     {:ok, membership_results}
   end
 
   @doc """
   Get the memberships for a given courseId. courseId is in the format abc-123, no spaces!
-  Can specify an offset.
+  Must specify paging.
   Learn does not allow spaces in a courseId.
   """
-  def get(fqdn, Learn.MembershipResults, courseId, offset) do
-    {:ok, membership_response} = LearnRestClient.get_memberships_for_courseId(fqdn, courseId, offset)
+  def get(fqdn, Learn.MembershipResults, _courseId, paging) do
+    {:ok, membership_response} = LearnRestClient.get_nextpage_of_memberships(fqdn, paging["nextPage"])
     membership_results = LearnRestUtil.to_struct(Learn.MembershipResults, membership_response)
-    Logger.info "Exit get Learn.Membership"
+
     {:ok, membership_results}
   end
 
