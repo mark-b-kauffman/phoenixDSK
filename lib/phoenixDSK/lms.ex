@@ -52,13 +52,28 @@ defmodule PhoenixDSK.Lms do
   Get all the memberships as a list of Learn.Membership structs
   This behavior is analogous to a Repo.
   """
-  def all(fqdn, courseId, Learn.Membership) do
-    {:ok, %Learn.MembershipResults{ paging: paging, results: membership_maps }} = Lms.get(fqdn, Learn.MembershipResults, courseId)
-    # while paging
-      {:ok, membership_response} = LearnRestClient.get_nextpage_of_memberships(fqdn, paging["nextPage"])
+  def all(fqdn, Learn.Membership, courseId) do
+    {:ok, %Learn.MembershipResults{ paging: paging, results: membership_maps }} = get(fqdn, Learn.MembershipResults, courseId)
+    # membership_maps is a list of maps
+    membership_maps = all_paging(fqdn, Learn.Membership, paging, membership_maps)
+
+
     {:ok, memberships} = LearnRestUtil.listofmaps_to_structs(Learn.Membership, membership_maps)
     {:ok, memberships}
   end
+
+  @doc """
+   Recursive all_paging required because while doesn't exist in Elixir.
+   Any variable we would while on is immutable.
+  """
+  def all_paging(_fqdn, Learn.Membership, paging, membership_maps) when paging == nil do
+    membership_maps
+  end
+
+   def all_paging(fqdn, Learn.Membership, paging, membership_maps_in ) do
+     {:ok, %Learn.MembershipResults{ paging: paging, results: membership_maps}} = get(fqdn, Learn.MembershipResults, "ignored", paging)
+     all_paging(fqdn, Learn.Membership, paging, Enum.concat(membership_maps_in,membership_maps ) )
+   end
 
   @doc """
   Get a user with the given userName. userName is in the format mkauffman
@@ -93,11 +108,11 @@ defmodule PhoenixDSK.Lms do
   end
 
   @doc """
-  Get the memberships for a given courseId. courseId is in the format abc-123, no spaces!
-  Must specify paging.
+  Get the memberships useing the paging link given from the prior get request.
+  _courseId is ignored
   Learn does not allow spaces in a courseId.
   """
-  def get(fqdn, Learn.MembershipResults, _courseId, paging) do
+  def get(fqdn, Learn.MembershipResults, courseId, paging) do
     {:ok, membership_response} = LearnRestClient.get_nextpage_of_memberships(fqdn, paging["nextPage"])
     membership_results = LearnRestUtil.to_struct(Learn.MembershipResults, membership_response)
 
