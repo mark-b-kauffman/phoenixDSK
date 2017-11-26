@@ -51,15 +51,24 @@ defmodule PhoenixDSK.Lms do
   @doc """
   Get all the memberships as a list of Learn.Membership structs
   This behavior is analogous to a Repo.
+  iex(4)> PhoenixDSK.Lms.all(fqdn, Learn.Membership, courseId)
   """
   def all(fqdn, Learn.Membership, courseId) do
     {:ok, %Learn.MembershipResults{ paging: paging, results: membership_maps }} = get(fqdn, Learn.MembershipResults, courseId)
     # membership_maps is a list of maps
     membership_maps = all_paging(fqdn, Learn.Membership, paging, membership_maps)
 
-
     {:ok, memberships} = LearnRestUtil.listofmaps_to_structs(Learn.Membership, membership_maps)
-    {:ok, memberships}
+
+    memberships_with_user = Enum.map(memberships, &fetch_user_of_membership(fqdn, &1))
+    {:ok, memberships_with_user}
+  end
+
+  def fetch_user_of_membership(fqdn, membership) do
+    user_id = membership.userId
+    {:ok, user_response} = LearnRestClient.get_user(fqdn, user_id)
+    user = LearnRestUtil.to_struct(Learn.User, user_response)
+    %Learn.Membership{ membership | user: user}
   end
 
   @doc """
