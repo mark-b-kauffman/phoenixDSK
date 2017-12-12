@@ -38,6 +38,7 @@
       <table class="table">
         <tr  style="font-weight:bold">
           <td> userId </td>
+          <td> userName </td>
           <td> courseRoleId </td>
           <td> availability </td>
           <td> DSK </td>
@@ -45,6 +46,7 @@
       <%= for membership <- @memberships do %>
         <tr>
           <td> <%= membership.userId %> </td>
+          <td> <%= membership.user.userName %> </td>
           <td> <%= membership.courseRoleId %> </td>
           <td> <%= membership.availability["available"] %> </td>
           <td> <%= @dskMap[membership.dataSourceId]["externalId"] %> </td>

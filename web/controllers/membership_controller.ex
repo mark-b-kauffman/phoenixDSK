@@ -61,10 +61,7 @@ defmodule PhoenixDSK.MembershipController do
       # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
       dsk_list = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
 
-      # while get_more is true do <-- don't do this, write Lms.all for Learn.Membership.
-      {:ok, %Learn.MembershipResults{ paging: paging, results: membership_maps }} = Lms.get(fqdn, Learn.MembershipResults, courseId)
-      # if empty result get_more = false else offset = value from paging
-      {:ok, memberships} = LearnRestUtil.listofmaps_to_structs(Learn.Membership, membership_maps)
+      {:ok, memberships} = Lms.all(fqdn, Learn.Membership, courseId)
       render conn, "courseId/show.html", courseId: courseId, course: course, memberships: memberships, dskMap: dskMap, dskList: dsk_list
   end
 
