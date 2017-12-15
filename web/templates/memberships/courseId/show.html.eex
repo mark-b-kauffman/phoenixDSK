@@ -1,0 +1,63 @@
+<!-- templates/memberships/courseId/show.html.eex -->
+<%= if @course.courseId do %>
+<div class="jumbotron">
+  <h4><%= @course.courseId %> </h4>
+  <h6>Rendered by templates/memberships/courseId/show.html.eex.</h6>
+</div>
+<div class="col-lg-6">
+  <table class="table">
+    <tr  style="font-weight:bold">
+      <td>courseId</td>
+      <td>organization?</td>
+      <td>dsk externalId</td>
+      <td>availability</td>
+    </tr>
+    <tr>
+      <td> <%= @course.courseId %> </td>
+      <td> <%= @course.organization %> </td>
+      <td> <%= @dskMap[@course.dataSourceId]["externalId"] %> </td>
+      <td> <%= @course.availability["available"] %> </td>
+    </tr>
+</table>
+</div>
+
+<div class="col-lg-6" align="left" style="clear: both;">
+      <b>Select a Different Course/Organization (courseId or organizationId)</b>
+</div>
+<div class="col-lg-6" style="clear: both;">
+    <%= form_for @conn, memberships_path(@conn, :select ), [as: :session, method: :get], fn f2 -> %>
+      <%= text_input f2, :newCourseId, [value: "#{@course.courseId}"] %>
+      <%= submit "Change" %>
+    <%end %>
+</div>
+
+<div class="col-lg-6" align="left" style="clear: both;">
+      <b>Memberships</b>
+</div>
+<div class="col-lg-12">
+      <table class="table">
+        <tr  style="font-weight:bold">
+          <td> userId </td>
+          <td> userName </td>
+          <td> courseRoleId </td>
+          <td> availability </td>
+          <td> DSK </td>
+        </tr>
+      <%= for membership <- @memberships do %>
+        <tr>
+          <td> <%= membership.userId %> </td>
+          <td> <%= membership.user.userName %> </td>
+          <td> <%= membership.courseRoleId %> </td>
+          <td> <%= membership.availability["available"] %> </td>
+          <td> <%= @dskMap[membership.dataSourceId]["externalId"] %> </td>
+        </tr>
+      <%= end %>
+    </table>
+</div>
+
+<%= else %>
+<div class="jumbotron">
+  <h4><%= @courseId %> Not Found </h4>
+  <h6>Rendered by templates/memberships/courseId/show.html.eex.</h6>
+</div>
+<%= end %>

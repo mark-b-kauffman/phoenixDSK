@@ -1,17 +1,5 @@
 <!-- templates/membership/index.html.eex -->
 <div class="jumbotron">
-  <h4>Select Courses & Organizations from <%= @fqdn %> to view their memberships</h4>
+  <h4>Place holder to view a membership</h4>
   <h6>Rendered by templates/membership/index.html.eex</h6>
-</div>
-
-<div class="col-lg-6" align="left" style="clear: both;">
-      <b>Select a Course (courseId)</b>
-</div>
-<div class="col-lg-6" style="clear: both;">
-    <%= form_for @conn, membership_path(@conn, :select ), [as: :session, method: :get], fn f2 -> %>
-      <%= text_input f2, :newCourseId %>
-      <%= submit "Submit" %>
-    <%end %>
-</div>
-
 </div>

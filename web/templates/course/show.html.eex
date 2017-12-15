@@ -7,7 +7,7 @@
 <div class="col-lg-6">
   <table class="table">
     <tr  style="font-weight:bold">
-      <td>courseId</td>
+      <td>courseId/organizationId</td>
       <td>organization?</td>
       <td>dsk externalId</td>
       <td>availability</td>
@@ -22,7 +22,7 @@
 </div>
 
 <div class="col-lg-6" align="left" style="clear: both;">
-      <b>Update Course</b>
+      <b>Update Course/Organization</b>
 </div>
 
 <div class="col-lg-6" style="clear: both;">
@@ -38,7 +38,7 @@
 </div>
 
 <div class="col-lg-6" align="left" style="clear: both;">
-      <b>Select a Different Course (courseId)</b>
+      <b>Select a Different Course/Organization (courseId/organizationId)</b>
 </div>
 <div class="col-lg-6" style="clear: both;">
     <%= form_for @conn, course_path(@conn, :update, @course.courseId), [as: :session], fn f2 -> %>

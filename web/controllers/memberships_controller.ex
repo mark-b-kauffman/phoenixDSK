@@ -1,7 +1,7 @@
-defmodule PhoenixDSK.MembershipController do
-  # For managing one membership. 2017.12.12
-  # TODO: Modify the following to manage one membership.
-
+defmodule PhoenixDSK.MembershipsController do
+  # For fetching and displaying course memberships.
+  # Not for showing one membership and editing it.
+  # That functionality goes in the MembershipController.
   use PhoenixDSK.Web, :controller
   require Logger
   alias PhoenixDSK.Lms, as: Lms
@@ -37,7 +37,7 @@ defmodule PhoenixDSK.MembershipController do
   end
 
   @doc """
-  From router: get "/memberships", CourseController, :index
+  From router: get "/memberships", MembershipsController, :index
   See http://www.phoenixframework.org/docs/adding-pages
   The core of this action is render conn, "index.html". This tells Phoenix
   to find a template called index.html.eex and render it. Phoenix will look
@@ -52,7 +52,7 @@ defmodule PhoenixDSK.MembershipController do
   end
 
   @doc """
-  From router: get "/memberships/courseId/:courseId", MembershipController, :show
+  From router: get "/memberships/courseId/:courseId", MembershipsController, :show
   """
   def show(conn, %{"courseId" => courseId }) do
       fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
@@ -69,17 +69,14 @@ defmodule PhoenixDSK.MembershipController do
   end
 
   @doc """
-  From router: get "/memberships/courseId", MembershipController, :select
+  From router: get "/memberships/courseId", MembershipsController, :select
   This comes from the form where we pick a course Id. The form's URL is built
   using the path from the router's select clause.
   """
   def select(conn, %{"session" => session}) do
     # show(conn, %{"courseId" => session["newCourseId"]})
     newCourseId = session["newCourseId"]
-    # 2017.12.12 The following throws a compile error as we refactor to
-    # use a memberships controller for this functionality. I'm not ready
-    # to pull this out yet. I expect this entire function will go...
-    # redirect conn, to: membership_path(conn, :show, newCourseId )
+    redirect conn, to: memberships_path(conn, :show, newCourseId )
   end
 
   @doc """

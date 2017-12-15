@@ -28,13 +28,17 @@ defmodule PhoenixDSK.Router do
     get "/courses/:courseId", CourseController, :show
     post "/courses/:courseId", CourseController, :update
 
-    get "/memberships", MembershipController, :index
+    get "/memberships", MembershipsController, :index
     # For nested see:
     # https://elixirforum.com/t/how-to-render-a-template-inside-a-web-templates-folder-subfolder/1404/6
     # We have to mod web.ex
-    get "/memberships/courseId", MembershipController, :select
-    get "/memberships/courseId/:courseId", MembershipController, :show
-    post "/memberships/:courseId/:userName", MembershipController, :update
+    get "/memberships/courseId", MembershipsController, :select
+    get "/memberships/courseId/:courseId", MembershipsController, :show
+
+    # 2017.12.12 redesign - the link on the page for the membership will
+    # link to a show for the membership, then we add a post for that.
+    # So, we shouldn't need the following:
+    #post "/memberships/:courseId/:userName", MembershipController, :update
 
     # Keep the following around to demonstrate Phoenix hot code reloading!
     get "/hello", HelloController, :index
