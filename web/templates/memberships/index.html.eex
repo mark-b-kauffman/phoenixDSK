@@ -5,7 +5,7 @@
 </div>
 
 <div class="col-lg-6" align="left" style="clear: both;">
-      <b>Select a Course (courseId)</b>
+      <b>Submit a course or organization (courseId/organizationId) to view memberships.</b>
 </div>
 <div class="col-lg-6" style="clear: both;">
     <%= form_for @conn, memberships_path(@conn, :select ), [as: :session, method: :get], fn f2 -> %>

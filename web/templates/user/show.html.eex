@@ -40,7 +40,7 @@
 </div>
 
 <div class="col-lg-6" align="left" style="clear: both;">
-      <b>Select a Different User</b>
+      <b>Select a different userName.</b>
 </div>
 <div class="col-lg-6" style="clear: both;">
     <%= form_for @conn, user_path(@conn, :update, @user.userName), [as: :session], fn f2 -> %>

@@ -22,7 +22,7 @@
 </div>
 
 <div class="col-lg-6" align="left" style="clear: both;">
-      <b>Select a Different Course/Organization (courseId or organizationId)</b>
+      <b>Select a different course/organization (courseId or organizationId).</b>
 </div>
 <div class="col-lg-6" style="clear: both;">
     <%= form_for @conn, memberships_path(@conn, :select ), [as: :session, method: :get], fn f2 -> %>
