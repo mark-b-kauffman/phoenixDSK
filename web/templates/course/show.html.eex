@@ -38,7 +38,7 @@
 </div>
 
 <div class="col-lg-6" align="left" style="clear: both;">
-      <b>Select a Different Course/Organization (courseId/organizationId)</b>
+      <b>Select a different course/organization (courseId/organizationId).</b>
 </div>
 <div class="col-lg-6" style="clear: both;">
     <%= form_for @conn, course_path(@conn, :update, @course.courseId), [as: :session], fn f2 -> %>

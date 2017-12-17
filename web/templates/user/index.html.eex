@@ -4,6 +4,16 @@
   <h6>Rendered by templates/user/index.html.eex</h6>
 </div>
 
+<div class="col-lg-6" align="left" style="clear: both;">
+      <b>Submit a userName to edit, or select a userName from the list that follows.</b>
+</div>
+<div class="col-lg-6" style="clear: both;">
+    <%= form_for @conn, user_path(@conn, :select), [as: :session, method: :get], fn f2 -> %>
+      <%= text_input f2, :newUserName %>
+      <%= submit "Submit" %>
+    <%end %>
+</div>
+
 <div class="col-lg-12">
       <table class="table">
         <tr  style="font-weight:bold">

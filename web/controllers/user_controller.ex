@@ -45,6 +45,11 @@ defmodule PhoenixDSK.UserController do
     render conn, "index.html", userList: userList, dskMap: dskMap, fqdn: fqdn
   end
 
+  def select(conn, %{"session" => session}) do
+    newUserName = session["newUserName"]
+    redirect conn, to: user_path(conn, :show, newUserName )
+  end
+
   @doc """
   From router: get "/users/:userName", UserController, :show
   """

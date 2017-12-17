@@ -21,7 +21,9 @@ defmodule PhoenixDSK.Router do
     get "/dsks", DskController, :index
 
     get "/users", UserController, :index
+    get "/users/userId", UserController, :select
     get "/users/:userName", UserController, :show
+
     post "/users/:userName", UserController, :update
 
     get "/courses", CourseController, :index
