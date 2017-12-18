@@ -105,6 +105,12 @@ defmodule PhoenixDSK.Lms do
     {:ok, course}
   end
 
+  def get(fqdn, Learn.Membership, courseId, userName) do
+    {:ok, membershipResponse} = LearnRestClient.get_membership(fqdn, courseId, userName)
+    membership = LearnRestUtil.to_struct(Learn.Membership, membershipResponse)
+    {:ok, membership}
+  end
+
   @doc """
   Get the memberships for a given courseId. courseId is in the format abc-123, no spaces!
   Learn does not allow spaces in a courseId.

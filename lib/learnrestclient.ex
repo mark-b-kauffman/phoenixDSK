@@ -293,6 +293,10 @@ defmodule LearnRestClient do
      "https://"<>fqdn<>"/learn/api/public/v1/courses/#{courseId}/users?offset=#{offset}"
    end
 
+   def get_membership_url(fqdn, courseId, userId) do
+     "https://"<>fqdn<>"/learn/api/public/v1/courses/#{courseId}/users/#{userId}"
+   end
+
    @doc """
    Get Memberships from the remote system specified by the fqdn and courseId
    id is the PK1 in the format _123_1 as seen in the address field of the
@@ -329,6 +333,15 @@ defmodule LearnRestClient do
      {:ok, memberships} = Poison.decode(response.body)
      # Logger.info "Exit LearnRestClient.get_memberships_for_course"
      {:ok, memberships}
+   end
+
+   def get_membership(fqdn, course_id, user_name) do
+     fqdnAtom = String.to_atom(fqdn)
+     url = get_membership_url(fqdn, "courseId:"<>course_id, "userName"<>user_name)
+     potionOptions = get_json_potion_options(fqdnAtom,"")
+     response = HTTPotion.get(url, potionOptions)
+     {:ok, membership} = Poison.decode(response.body)
+     {:ok, membership}
    end
 
    @doc """

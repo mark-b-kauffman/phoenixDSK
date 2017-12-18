@@ -37,26 +37,12 @@ defmodule PhoenixDSK.MembershipController do
   end
 
   @doc """
-  From router: get "/memberships", CourseController, :index
-  See http://www.phoenixframework.org/docs/adding-pages
-  The core of this action is render conn, "index.html". This tells Phoenix
-  to find a template called index.html.eex and render it. Phoenix will look
-  for the template in a directory named after our controller,
-  so web/templates/course.
+  From router: get "/membership/:courseId/:userName", MembershipController, :show
   """
-  def index(conn, _params) do
-    fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
-    {:ok, courseList} = Lms.all(fqdn, Learn.Course) # List of structs
-    {:ok, intentionallyUnused, dskMap } = LearnRestClient.get_data_sources(fqdn)
-    render conn, "index.html", courseList: courseList, dskMap: dskMap, fqdn: fqdn
-  end
-
-  @doc """
-  From router: get "/memberships/courseId/:courseId", MembershipController, :show
-  """
-  def show(conn, %{"courseId" => courseId }) do
+  def show(conn, %{"courseId" => courseId, "userName" => userName }) do
       fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
       {:ok, course} = Lms.get(fqdn, Learn.Course, courseId) # course as struct
+      {:ok, user} = Lms.get(fqdn, Learn.User, userName)
       {:ok, intentionallyUnused, dskMap} = LearnRestClient.get_data_sources(fqdn)
       # dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
       # dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
@@ -64,49 +50,8 @@ defmodule PhoenixDSK.MembershipController do
       # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
       dsk_list = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
 
-      {:ok, memberships} = Lms.all(fqdn, Learn.Membership, courseId)
-      render conn, "courseId/show.html", courseId: courseId, course: course, memberships: memberships, dskMap: dskMap, dskList: dsk_list
+      {:ok, membership} = Lms.get(fqdn, Learn.Membership, courseId, userName)
+      render conn, "show.html", courseId: courseId, course: course, userName: userName, user: user, membership: membership, dskMap: dskMap, dskList: dsk_list
   end
-
-  @doc """
-  From router: get "/memberships/courseId", MembershipController, :select
-  This comes from the form where we pick a course Id. The form's URL is built
-  using the path from the router's select clause.
-  """
-  def select(conn, %{"session" => session}) do
-    # show(conn, %{"courseId" => session["newCourseId"]})
-    newCourseId = session["newCourseId"]
-    # 2017.12.12 The following throws a compile error as we refactor to
-    # use a memberships controller for this functionality. I'm not ready
-    # to pull this out yet. I expect this entire function will go...
-    # redirect conn, to: membership_path(conn, :show, newCourseId )
-  end
-
-  @doc """
-  From router: post "/memberships/courseId/:courseId", CourseController, :update
-  """
-  def update(conn, %{"courseId" => courseId, "session" => session}) do
-    fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
-    {:ok, course} = LearnRestClient.get_course_with_courseId(fqdn, courseId)
-    # Update the course in the LMS with this line.
-    Logger.info "DSK value selected #{session["selected_dsk"]}"
-    Logger.info "'available' value selected #{session["selected_avail"]}"
-    Logger.info "newCourse:#{session["newCourse"]}"
-    Logger.info "courseId:#{courseId}"
-    newCourse = session["newCourse"]
-    if not(String.equivalent?(newCourse, courseId)) do
-      courseId = newCourse
-    end
-    new_avail = session["selected_avail"]
-    new_dsk = session["selected_dsk"]
-    Logger.info course["id"]
-    # Create a new course with the selected values.
-    # Elixir values are immutable so have to create a new one.
-    newCourse = %{course | "availability" => %{"available" => "#{new_avail}"}, "dataSourceId" => "#{new_dsk}"}
-    # Call the REST APIs to update the course.
-    {:ok} = LearnRestClient.update_course_with_courseId(fqdn, courseId, newCourse)
-    # Now show.
-    show(conn, %{"courseId" => courseId})
-  end #update
 
 end

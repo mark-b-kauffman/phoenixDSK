@@ -1,0 +1,19 @@
+<!-- templates/membership/show.html.eex -->
+<%= if @course.courseId do %>
+<div class="jumbotron">
+  <h2> Membership For </h2>
+  <h4><%= @course.courseId %> </h4>
+  <%= if @user.userName do %>
+    <h4><%= @user.userName %> </h4>
+  <%= else %>
+    <h4> <%= @userName %> Not Found </h4>
+  <%= end %>
+  <h6>Rendered by templates/membership/show.html.eex.</h6>
+</div>
+
+<%= else %>
+<div class="jumbotron">
+  <h4><%= @courseId %> Not Found </h4>
+  <h6>Rendered by templates/membership/show.html.eex.</h6>
+</div>
+<%= end %>
