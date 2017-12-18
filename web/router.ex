@@ -21,13 +21,18 @@ defmodule PhoenixDSK.Router do
     get "/dsks", DskController, :index
 
     get "/users", UserController, :index
-    get "/users/userId", UserController, :select
+    # Why the @ sign in the following? It's a userId that cannot exist in Learn.
+    get "/users/user@id", UserController, :select
     get "/users/:userName", UserController, :show
 
     post "/users/:userName", UserController, :update
 
     get "/courses", CourseController, :index
+    # Why course@id in the following? Learn doesn't allow @ in an ID, hence
+    # course@id is not an ID for a course on the system.
+    get "/courses/course@id", CourseController, :select
     get "/courses/:courseId", CourseController, :show
+
     post "/courses/:courseId", CourseController, :update
 
     get "/memberships", MembershipsController, :index

@@ -63,6 +63,11 @@ defmodule PhoenixDSK.CourseController do
     render conn, "show.html", courseId: courseId, course: course, dskMap: dskMap, dskList: dskList
   end
 
+  def select(conn, %{"session" => session}) do
+    newCourseId = session["newCourseId"]
+    redirect conn, to: course_path(conn, :show, newCourseId )
+  end
+
   @doc """
   From router: post "/courses/:courseId", CourseController, :update
   """

@@ -1,4 +1,4 @@
-<!-- templates/user/show.html.eex -->
+<!-- templates/course/show.html.eex -->
 <%= if @course.courseId do %>
 <div class="jumbotron">
   <h4><%= @course.courseId %> </h4>
