@@ -337,7 +337,7 @@ defmodule LearnRestClient do
 
    def get_membership(fqdn, course_id, user_name) do
      fqdnAtom = String.to_atom(fqdn)
-     url = get_membership_url(fqdn, "courseId:"<>course_id, "userName"<>user_name)
+     url = get_membership_url(fqdn, "courseId:"<>course_id, "userName:"<>user_name)
      potionOptions = get_json_potion_options(fqdnAtom,"")
      response = HTTPotion.get(url, potionOptions)
      {:ok, membership} = Poison.decode(response.body)

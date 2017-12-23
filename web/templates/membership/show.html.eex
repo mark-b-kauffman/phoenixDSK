@@ -1,15 +1,33 @@
 <!-- templates/membership/show.html.eex -->
 <%= if @course.courseId do %>
 <div class="jumbotron">
-  <h2> Membership For </h2>
-  <h4><%= @course.courseId %> </h4>
+  <h2> Membership </h2>
+  <h4>Course: <%= @course.courseId %> </h4>
   <%= if @user.userName do %>
-    <h4><%= @user.userName %> </h4>
+    <h4>User: <%= @user.userName %> </h4>
   <%= else %>
     <h4> <%= @userName %> Not Found </h4>
   <%= end %>
   <h6>Rendered by templates/membership/show.html.eex.</h6>
 </div>
+
+<div class="col-lg-6">
+  <table class="table">
+    <tr  style="font-weight:bold">
+      <td>courseId/organizationId</td>
+      <td>userName</td>
+      <td>dsk externalId</td>
+      <td>availability</td>
+    </tr>
+    <tr>
+      <td> <%= @course.courseId %> </td>
+      <td> <%= @user.userName %> </td>
+      <td> <%= @dskMap[@membership.dataSourceId]["externalId"] %> </td>
+      <td> <%= @membership.availability["available"] %> </td>
+    </tr>
+</table>
+</div>
+
 
 <%= else %>
 <div class="jumbotron">

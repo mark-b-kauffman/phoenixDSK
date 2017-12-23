@@ -108,7 +108,8 @@ defmodule PhoenixDSK.Lms do
   def get(fqdn, Learn.Membership, courseId, userName) do
     {:ok, membershipResponse} = LearnRestClient.get_membership(fqdn, courseId, userName)
     membership = LearnRestUtil.to_struct(Learn.Membership, membershipResponse)
-    {:ok, membership} 
+    Logger.info "Got membership for #{courseId} #{userName}"
+    {:ok, membership}
   end
 
   @doc """

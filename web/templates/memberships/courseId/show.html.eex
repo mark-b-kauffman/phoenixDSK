@@ -46,7 +46,7 @@
       <%= for membership <- @memberships do %>
         <tr>
           <td> <%= membership.userId %> </td>
-          <td> <%= membership.user.userName %> </td>
+          <td> <%= link membership.user.userName, to: membership_path(@conn, :show, @course.courseId, membership.user.userName) %> </td>
           <td> <%= membership.courseRoleId %> </td>
           <td> <%= membership.availability["available"] %> </td>
           <td> <%= @dskMap[membership.dataSourceId]["externalId"] %> </td>
