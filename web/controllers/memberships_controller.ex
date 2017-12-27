@@ -91,9 +91,9 @@ defmodule PhoenixDSK.MembershipsController do
     Logger.info "newCourse:#{session["newCourse"]}"
     Logger.info "courseId:#{courseId}"
     newCourse = session["newCourse"]
-    if not(String.equivalent?(newCourse, courseId)) do
-      courseId = newCourse
-    end
+
+    courseId = newCourse
+
     new_avail = session["selected_avail"]
     new_dsk = session["selected_dsk"]
     Logger.info course["id"]

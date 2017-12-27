@@ -47,9 +47,9 @@
     <%end %>
 </div>
 
-<%= else %>
+<% else %>
 <div class="jumbotron">
   <h4><%= @courseId %> Not Found </h4>
   <h6>Rendered by templates/course/show.html.eex.</h6>
 </div>
-<%= end %>
+<% end %>

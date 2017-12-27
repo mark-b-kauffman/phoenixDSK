@@ -43,6 +43,7 @@ defmodule PhoenixDSK.Router do
     get "/memberships/courseId/:courseId", MembershipsController, :show
 
     get "/membership/:courseId/:userName", MembershipController, :show
+    post "/membership/:courseId/:userName", MembershipController, :update
 
     # 2017.12.12 redesign - the link on the page for the membership will
     # link to a show for the membership, then we add a post for that.

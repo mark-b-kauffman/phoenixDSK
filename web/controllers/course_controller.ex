@@ -80,9 +80,9 @@ defmodule PhoenixDSK.CourseController do
     Logger.info "newCourse:#{session["newCourse"]}"
     Logger.info "courseId:#{courseId}"
     newCourse = session["newCourse"]
-    if not(String.equivalent?(newCourse, courseId)) do
+    # if not(String.equivalent?(newCourse, courseId)) do # TODO: REMOVE
       courseId = newCourse
-    end
+    # end
     new_avail = session["selected_avail"]
     new_dsk = session["selected_dsk"]
     Logger.info course["id"]

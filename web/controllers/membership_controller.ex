@@ -54,4 +54,41 @@ defmodule PhoenixDSK.MembershipController do
       render conn, "show.html", courseId: courseId, course: course, userName: userName, user: user, membership: membership, dskMap: dskMap, dskList: dsk_list
   end
 
+  @doc """
+  From router: post "/membership/:courseId/:userName", MembershipController, :update
+  """
+  def update(conn, %{"courseId" => courseId, "userName" => userName, "session" => session}) do
+    fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
+    {:ok, course} = LearnRestClient.get_course_with_courseId(fqdn, courseId)
+    {:ok, membership} = LearnRestClient.get_membership(fqdn, courseId, userName)
+    # Update the membership in the LMS with this line.
+    Logger.info "DSK value selected #{session["selected_dsk"]}"
+    Logger.info "'available' value selected #{session["selected_avail"]}"
+
+    # Why do we need newCourse before we create the thing we update?
+    # What was the reasoning behind the hidden inputs? Ensure valid post?
+    Logger.info "newCourse:#{session["newCourse"]}"
+    Logger.info "courseId:#{courseId}"
+    newCourse = session["newCourse"]
+    # if not(String.equivalent?(newCourse, courseId)) do # TODO: REMOVE
+       courseId = newCourse
+    # end
+    newUser = session["newUser"]
+    # if not(String.equivalent?(newUser, userName)) do # TODO: REMOVE
+       userName = newUser
+    # end
+
+    new_avail = session["selected_avail"]
+    new_dsk = session["selected_dsk"]
+    Logger.info course["id"]
+    # Create a new membership with the selected values.
+    # Elixir values are immutable so create a new membership
+    newMembership = %{membership | "availability" => %{"available" => "#{new_avail}"}, "dataSourceId" => "#{new_dsk}"}
+    # Call the REST APIs to update the membership.
+    {:ok} = LearnRestClient.update_membership_with_courseId_userName(fqdn, courseId, userName, newMembership)
+    # Now show.
+    show(conn, %{"courseId" => courseId, "userName" => userName})
+  end #update
+
+
 end

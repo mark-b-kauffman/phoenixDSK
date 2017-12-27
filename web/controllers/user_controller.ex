@@ -77,9 +77,9 @@ defmodule PhoenixDSK.UserController do
     Logger.info "newUser:#{session["newUser"]}"
     Logger.info "userName:#{userName}"
     newUser = session["newUser"]
-    if not(String.equivalent?(newUser, userName)) do
-      userName = newUser
-    end
+    #if not(String.equivalent?(newUser, userName)) do # TODO: REMOVE
+           userName = newUser
+    #end
     new_avail = session["selected_avail"]
     new_dsk = session["selected_dsk"]
     Logger.info user["id"]

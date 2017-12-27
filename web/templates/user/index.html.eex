@@ -29,6 +29,6 @@
           <td> <%= @dskMap[user.dataSourceId]["externalId"] %> </td>
           <td> <%= user.availability["available"] %> </td>
         </tr>
-      <%= end %>
+      <% end %>
     </table>
 </div>

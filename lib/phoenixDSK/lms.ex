@@ -84,6 +84,9 @@ defmodule PhoenixDSK.Lms do
      all_paging(fqdn, Learn.Membership, paging, Enum.concat(membership_maps_in,membership_maps ) )
    end
 
+  # Elixir warns us if we don't group all of the gets with 3 params together,
+  # then all of the gets with 4 params together.
+
   @doc """
   Get a user with the given userName. userName is in the format mkauffman
   This behavior is analogous to a Repo.
@@ -105,13 +108,6 @@ defmodule PhoenixDSK.Lms do
     {:ok, course}
   end
 
-  def get(fqdn, Learn.Membership, courseId, userName) do
-    {:ok, membershipResponse} = LearnRestClient.get_membership(fqdn, courseId, userName)
-    membership = LearnRestUtil.to_struct(Learn.Membership, membershipResponse)
-    Logger.info "Got membership for #{courseId} #{userName}"
-    {:ok, membership}
-  end
-
   @doc """
   Get the memberships for a given courseId. courseId is in the format abc-123, no spaces!
   Learn does not allow spaces in a courseId.
@@ -123,8 +119,15 @@ defmodule PhoenixDSK.Lms do
     {:ok, membership_results}
   end
 
+  def get(fqdn, Learn.Membership, courseId, userName) do
+    {:ok, membershipResponse} = LearnRestClient.get_membership(fqdn, courseId, userName)
+    membership = LearnRestUtil.to_struct(Learn.Membership, membershipResponse)
+    Logger.info "Got membership for #{courseId} #{userName}"
+    {:ok, membership}
+  end
+
   @doc """
-  Get the memberships useing the paging link given from the prior get request.
+  Get the memberships using the paging link given from the prior get request.
   _courseId is ignored
   Learn does not allow spaces in a courseId.
   """

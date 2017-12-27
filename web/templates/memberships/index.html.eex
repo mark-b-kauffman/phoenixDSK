@@ -11,7 +11,7 @@
     <%= form_for @conn, memberships_path(@conn, :select ), [as: :session, method: :get], fn f2 -> %>
       <%= text_input f2, :newCourseId %>
       <%= submit "Submit" %>
-    <%end %>
+    <% end %>
 </div>
 
 </div>
