@@ -83,9 +83,10 @@ defmodule PhoenixDSK.MembershipController do
     Logger.info course["id"]
     # Create a new membership with the selected values.
     # Elixir values are immutable so create a new membership
-    newMembership = %{membership | "availability" => %{"available" => "#{new_avail}"}, "dataSourceId" => "#{new_dsk}"}
+    temp = %{membership | "availability" => %{"available" => "#{new_avail}"}, "dataSourceId" => "#{new_dsk}"}
+    newMembership = Map.delete(temp, "created")
     # Call the REST APIs to update the membership.
-    {:ok} = LearnRestClient.update_membership_with_courseId_userName(fqdn, courseId, userName, newMembership)
+    {:ok} = LearnRestClient.update_membership(fqdn, courseId, userName, newMembership)
     # Now show.
     show(conn, %{"courseId" => courseId, "userName" => userName})
   end #update
