@@ -2,6 +2,8 @@
 # Author: Mark Bykerk Kauffman
 # Date : 2017.03
 # 2017.03.24 MBK - moved appkey and appsecret to config/dev.exs.
+# 2017.12.27 MBK - When we get an access token, we calculate and save the time it will expire.
+# Then we check the time and refresh our access token on expiration in get_json_request_headers
 defmodule LearnRestClient do
   require Logger
   # We want to be able to access these module constants outside of the module.
@@ -268,7 +270,7 @@ defmodule LearnRestClient do
 
    @doc """
    Get the json request headers, where the headers are key/value comma seperated
-   list. TODO: Check the accessToken expiry. Refresh as necessary.
+   list. Also, check the accessToken expiry. Refresh as necessary.
    The other option is to look for the following on responses..
    {:ok, %{"message" => "Bearer token is invalid", "status" => 401}}
 
@@ -352,6 +354,19 @@ defmodule LearnRestClient do
      response = HTTPotion.get(url, potionOptions)
      {:ok, membership} = Poison.decode(response.body)
      {:ok, membership}
+   end
+
+   @doc """
+   Update the user with userId to have the new userData
+   """
+   def update_membership(fqdn, course_id, user_name, membershipData) do
+     fqdnAtom = String.to_atom(fqdn)
+     {:ok, body} = Poison.encode(membershipData)
+     options = LearnRestClient.get_json_potion_options(fqdnAtom, body)
+     membershipUrl = LearnRestClient.get_membership_url(fqdn, "courseId:"<>course_id, "userName:"<>user_name)
+     response = HTTPotion.patch(membershipUrl, options)
+     Logger.info response.body
+     {:ok}
    end
 
    @doc """
