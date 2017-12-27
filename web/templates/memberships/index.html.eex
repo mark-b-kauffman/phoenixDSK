@@ -6,6 +6,9 @@
 
 <div class="col-lg-6" align="left" style="clear: both;">
       <b>Submit a course or organization (courseId/organizationId) to view memberships.</b>
+      Note: Bb uses values like course_id=_3_1 in the address field of the browser. This is not the courseId.
+      The Course ID is the value referenced on the System Admin -> Courses page. These are values like
+      CSCI-251
 </div>
 <div class="col-lg-6" style="clear: both;">
     <%= form_for @conn, memberships_path(@conn, :select ), [as: :session, method: :get], fn f2 -> %>

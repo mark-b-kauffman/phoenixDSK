@@ -264,7 +264,9 @@ defmodule LearnRestClient do
 
    @doc """
    Get the json request headers, where the headers are key/value comma seperated
-   list.
+   list. TODO: Check the accessToken expiry. Refresh as necessary.
+   The other option is to look for the following on responses..
+   {:ok, %{"message" => "Bearer token is invalid", "status" => 401}}
 
    """
    def get_json_request_headers(fqdnAtom) do
@@ -281,7 +283,7 @@ defmodule LearnRestClient do
    """
    def get_memberships_url_for_course(fqdn, courseId) do
      # Use String interpolation again.
-     "https://"<>fqdn<>"/learn/api/public/v1/courses/#{courseId}/users"
+     "https://"<>fqdn<>@kv[:coursesendpoint]<>"/#{courseId}/users"
    end
 
    @doc """
@@ -290,11 +292,11 @@ defmodule LearnRestClient do
    """
    def get_memberships_url_for_course(fqdn, courseId, offset) do
      # Use String interpolation again.
-     "https://"<>fqdn<>"/learn/api/public/v1/courses/#{courseId}/users?offset=#{offset}"
+     "https://"<>fqdn<>@kv[:coursesendpoint]<>"/#{courseId}/users?offset=#{offset}"
    end
 
    def get_membership_url(fqdn, courseId, userId) do
-     "https://"<>fqdn<>"/learn/api/public/v1/courses/#{courseId}/users/#{userId}"
+     "https://"<>fqdn<>@kv[:coursesendpoint]<>"/#{courseId}/users/#{userId}"
    end
 
    @doc """
