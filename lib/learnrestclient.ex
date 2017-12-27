@@ -119,6 +119,10 @@ defmodule LearnRestClient do
      potionOptions = get_oauth_potion_options()
      response = HTTPotion.post(url, potionOptions)
      {:ok, tokenMap} = Poison.decode(response.body) # Convert the Json in the response body to a map.
+     now = System.system_time(:second)
+     seconds_to_expire = tokenMap["expires_in"]
+     expire_time = now + seconds_to_expire
+     LearnRestClient.put(fqdnAtom, "tokenExpireTime", expire_time)
      LearnRestClient.put(fqdnAtom, "tokenMap", tokenMap )
      # Now we can do:
      # fqdn = "bd-partner-a-original.blackboard.com"
@@ -270,6 +274,10 @@ defmodule LearnRestClient do
 
    """
    def get_json_request_headers(fqdnAtom) do
+     if LearnRestClient.get(fqdnAtom, "tokenExpireTime") - System.system_time(:second) < 10 do
+       fqdn = Atom.to_string(fqdnAtom)
+       start_client(fqdn)
+     end
      accessToken = LearnRestClient.get(fqdnAtom,"tokenMap")["access_token"]
       ["Content-Type": "application/json", "Authorization": "Bearer #{accessToken}"]
    end
