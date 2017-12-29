@@ -114,18 +114,12 @@ defmodule LearnRestClient do
      # 2014.04.18 Storing the DSKs seemed like a good idea on first
      # writing. We'll revisit this later as it may not be necessary,
      # or good design.
-     fqdnAtom = String.to_atom(fqdn)
-     Agent.start_link(fn -> %{} end, name: fqdnAtom)
-     LearnRestClient.put(fqdnAtom, "FQDN", fqdn)
-     url = get_oauth_url(fqdn)
-     potionOptions = get_oauth_potion_options()
-     response = HTTPotion.post(url, potionOptions)
-     {:ok, tokenMap} = Poison.decode(response.body) # Convert the Json in the response body to a map.
-     now = System.system_time(:second)
-     seconds_to_expire = tokenMap["expires_in"]
-     expire_time = now + seconds_to_expire
-     LearnRestClient.put(fqdnAtom, "tokenExpireTime", expire_time)
-     LearnRestClient.put(fqdnAtom, "tokenMap", tokenMap )
+
+     # Moved the authorization off to a separate method. This so we can
+     # switch from basic_auth to three-legged
+
+     {:ok, tokenMap} = post_basic_auth(fqdn)
+
      # Now we can do:
      # fqdn = "bd-partner-a-original.blackboard.com"
      # fqdnAtom = String.to_atom(fqdn)
@@ -135,6 +129,34 @@ defmodule LearnRestClient do
      # LearnRestClient.get(fqdnAtom, "dskMap")
      {:ok, intentionallyUnused, theDskMap} = LearnRestClient.get_data_sources(fqdn)
      {:ok, %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => theDskMap}}
+   end
+
+   ###### BASIC AUTH #####
+   @doc """
+   Basic Authroization. Return :ok with the tokenMap, or :error with an empty map
+   """
+   def post_basic_auth(fqdn) do
+     fqdnAtom = String.to_atom(fqdn)
+     LearnRestClient.start_link(fqdnAtom)
+     LearnRestClient.put(fqdnAtom, "FQDN", fqdn)
+     url = get_oauth_url(fqdn)
+     potionOptions = get_oauth_potion_options()
+     response = HTTPotion.post(url, potionOptions)
+     result = case response do
+       %HTTPotion.Response{} ->
+         {:ok, tokenMap} = Poison.decode(response.body) # Convert the Json in the response body to a map.
+         now = System.system_time(:second)
+         seconds_to_expire = tokenMap["expires_in"]
+         expire_time = now + seconds_to_expire
+         LearnRestClient.put(fqdnAtom, "tokenExpireTime", expire_time)
+         temp = LearnRestClient.put(fqdnAtom, "tokenMap", tokenMap )
+         {temp, tokenMap}
+
+       %HTTPotion.ErrorResponse{} -> {:error, {}}
+
+       _ -> {:error,{}}
+     end
+
    end
 
    ##### COURSES #####
