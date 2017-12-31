@@ -115,10 +115,12 @@ defmodule LearnRestClient do
      # writing. We'll revisit this later as it may not be necessary,
      # or good design.
 
-     # Moved the authorization off to a separate method. This so we can
+     # 2017.12.29 MBK Moved the authorization off to a separate method. This so we can
      # switch from basic_auth to three-legged
-
-     {:ok, tokenMap} = post_basic_auth(fqdn)
+     fqdnAtom = String.to_atom(fqdn)
+     LearnRestClient.start_link(fqdnAtom)
+     LearnRestClient.put(fqdnAtom, "FQDN", fqdn)
+     {:ok, tokenMap} = get_authorization(fqdn)
 
      # Now we can do:
      # fqdn = "bd-partner-a-original.blackboard.com"
@@ -131,14 +133,40 @@ defmodule LearnRestClient do
      {:ok, %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => theDskMap}}
    end
 
+   @doc """
+      Call get_basic_access_token whenever you want an access token.
+      We call this whether we have chosen basic-auth or three-legged-auth
+   """
+   def get_basic_access_token_map(fqdn) do
+     fqdnAtom = String.to_atom(fqdn)
+     if LearnRestClient.get(fqdnAtom, "tokenExpireTime") - System.system_time(:second) < 10 do
+       fqdn = Atom.to_string(fqdnAtom)
+       post_basic_auth(fqdn)
+     end
+     LearnRestClient.get(fqdnAtom,"tokenMap")
+   end
+
+   @doc """
+    get_authorization is all any method that needs an access token needs to call
+    In here we worry about whether we already have an access token, whether
+    it's expired, whether we're doing 3-legged or basic, etc.
+   """
+   def get_authorization(fqdn) do
+     # success returns a tuple {:ok, tokenMap}
+     # Does the client currently have a token map? If not, get one.
+     case tokenMap = LearnRestClient.get(String.to_atom(fqdn), "tokenMap") do
+       nil -> tokenMap = post_basic_auth(fqdn)
+       _ -> get_basic_access_token_map(fqdn)
+     end
+     {:ok, tokenMap}
+  end
+
    ###### BASIC AUTH #####
    @doc """
    Basic Authroization. Return :ok with the tokenMap, or :error with an empty map
    """
    def post_basic_auth(fqdn) do
      fqdnAtom = String.to_atom(fqdn)
-     LearnRestClient.start_link(fqdnAtom)
-     LearnRestClient.put(fqdnAtom, "FQDN", fqdn)
      url = get_oauth_url(fqdn)
      potionOptions = get_oauth_potion_options()
      response = HTTPotion.post(url, potionOptions)
@@ -298,12 +326,12 @@ defmodule LearnRestClient do
 
    """
    def get_json_request_headers(fqdnAtom) do
-     if LearnRestClient.get(fqdnAtom, "tokenExpireTime") - System.system_time(:second) < 10 do
-       fqdn = Atom.to_string(fqdnAtom)
-       start_client(fqdn)
-     end
-     accessToken = LearnRestClient.get(fqdnAtom,"tokenMap")["access_token"]
-      ["Content-Type": "application/json", "Authorization": "Bearer #{accessToken}"]
+     # get_authorization dynamically gets either the cached token or
+     # gets a new one, using  basic auth or three-legged.
+     {:ok, tokenMap} = get_authorization(Atom.to_string(fqdnAtom))
+     accessToken = tokenMap["access_token"]
+     # Return the list of header items.
+     ["Content-Type": "application/json", "Authorization": "Bearer #{accessToken}"]
    end
 
 
