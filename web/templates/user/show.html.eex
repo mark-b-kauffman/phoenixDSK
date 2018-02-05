@@ -9,12 +9,14 @@
     <tr  style="font-weight:bold">
       <td>externalId</td>
       <td>userName</td>
+      <td>email</td>
       <td>dsk externalId</td>
       <td>availability</td>
     </tr>
     <tr>
       <td> <%= @user.externalId %> </td>
       <td> <%= @user.userName %> </td>
+      <td> <%= @user.contact["email"] %> </td>
       <td> <%= @dskMap[@user.dataSourceId]["externalId"] %> </td>
       <td> <%= @user.availability["available"] %> </td>
     </tr>
@@ -42,7 +44,7 @@
 </div>
 
 <div class="col-lg-6" align="left" style="clear: both;">
-      <b>Select a different userName.</b>
+      <b>Select a Different User</b>
 </div>
 <div class="col-lg-6" style="clear: both;">
     <%= form_for @conn, user_path(@conn, :update, @user.userName), [as: :session], fn f2 -> %>
@@ -51,9 +53,9 @@
     <%end %>
 </div>
 
-<% else %>
+<%= else %>
 <div class="jumbotron">
   <h4><%= @userName %> Not Found </h4>
   <h6>Rendered by templates/user/show.html.eex.</h6>
 </div>
-<% end %>
+<%= end %>
