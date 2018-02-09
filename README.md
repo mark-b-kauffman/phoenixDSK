@@ -3,6 +3,10 @@ See BLACKBOARD_LICENSE.md for the license pertaining to the portions of this app
 
 See PHOENIX_LICENSE.md for the Phoenix Framework License
 
+## Basic Authentication
+Reference https://medium.com/@paulfedory/basic-authentication-in-your-phoenix-app-fa24e57baa8
+Development user and password are user2/secret2. See router.ex for setup. Will be using environment variables for production user and password. This app must be served over HTTPS. Then, given that we're using the following in the router, plug :protect_from_forgery, plug :put_secure_browser_headers, your browser is protected from someone spoofing this app, and you've guaranteed that only you can log in to this app that for which only you know the user and password. You're responsible for making your password long and complex enough that it's secure from dictionary attacks.
+
 ## Quick and Easy Deployment to Heroku:
 1. Get an application ID, key, and Secret from https://developer.blackboard.com
 2. Set up the REST application on your Learn server using the application ID from #1.
@@ -13,6 +17,8 @@ See PHOENIX_LICENSE.md for the Phoenix Framework License
 4. Wait a bit while the application deploys to your Heroku server.
 5. Click the View button.
 6. Remove the trailing /register in the address of the page that is displayed, then hit enter to view the application.
+
+Note: The Heroku configuration is contained in the top-level file app.json.
 
 ## Notes for building and deploying locally:
 

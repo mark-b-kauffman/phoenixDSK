@@ -13,8 +13,14 @@ defmodule PhoenixDSK.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :login do
+    username = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:phoenix_dsk_user]
+    password = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:phoenix_dsk_pwd]
+    plug BasicAuth, username: username, password: password
+  end
+
   scope "/", PhoenixDSK do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :login] # Use the default browser stack
 
     get "/", PageController, :index
 
