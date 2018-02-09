@@ -64,6 +64,6 @@ config :phoenixDSK, PhoenixDSK.Endpoint,
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   appkey: System.get_env("APP_KEY"),
   appsecret: System.get_env("APP_SECRET"),
-  learnserver: System.get_env("LEARNSERVER")
-  phoenix_dsk_user: System.get_env("PHOENIX_DSK_USER")
+  learnserver: System.get_env("LEARNSERVER"),
+  phoenix_dsk_user: System.get_env("PHOENIX_DSK_USER"),
   phoenix_dsk_pwd: System.get_env("PHOENIX_DSK_PWD")
