@@ -15,7 +15,7 @@
     "APP_SECRET": "Replace this with your REST app Secret.",
     "LEARNSERVER": "Replace this with the FQDN of your Learn server.",
     "PHOENIX_DSK_USER": "Replace this with the username for login.",
-    "PHOENIX_DSI_PWD": "Replace this with the password for login."
+    "PHOENIX_DSK_PWD": "Replace this with the password for login."
 
   },
   "scripts": {
