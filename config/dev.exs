@@ -31,8 +31,10 @@ config :phoenixDSK, PhoenixDSK.Endpoint,
 # spoof your application. Read these with:
 # Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:appkey]
 config :phoenixDSK, PhoenixDSK.Endpoint,
-  appkey: "d128e50d-c91e-47d3-a97e-yourkeyhered",
-  appsecret: "jZljsyAyUnthyourappsecretGXixS52"
+  appkey: "youre50d-keye-47d3-here-000000000000",
+  appsecret: "0000yoursecretRl37here0000000000",
+  phoenix_dsk_user: "user2",
+  phoenix_dsk_pwd: "secret2"
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
@@ -40,4 +42,3 @@ config :logger, :console, format: "[$level] $message\n"
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
-
