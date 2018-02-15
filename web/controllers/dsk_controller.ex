@@ -10,7 +10,7 @@ defmodule PhoenixDSK.DskController do
   """
   def index(conn, _params) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
-    {:ok, dskList} = Lms.all(fqdn, Learn.Dsk)
+    {:ok, dskList} = Lms.all(fqdn, Learn.Dsk, "allpages")
     render conn, "index.html", dskList: dskList, fqdn: fqdn
   end
 

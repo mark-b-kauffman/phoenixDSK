@@ -28,6 +28,16 @@ defmodule PhoenixDSK.Lms do
     {:ok, dskList}
   end
 
+  def all(fqdn, Learn.Dsk, "allpages") do
+    {:ok, %Learn.DskResults{ paging: paging, results: dsk_maps }} = get(fqdn, Learn.DskResults ) # TODO 2018.02.14!!
+    # dsk_maps is a list of maps
+    dsk_maps = all_paging(fqdn, Learn.Dsk, paging, dsk_maps)
+
+    {:ok, dskList} = LearnRestUtil.listofmaps_to_structs(Learn.Dsk, dsk_maps)
+
+    {:ok, dskList }
+  end
+
   @doc """
   Get all the users as a list of Learn.User structs
   This behavior is analogous to a Repo.
@@ -84,6 +94,15 @@ defmodule PhoenixDSK.Lms do
      all_paging(fqdn, Learn.Membership, paging, Enum.concat(membership_maps_in,membership_maps ) )
    end
 
+   def all_paging(_fqdn, Learn.Dsk, paging, dsk_maps) when paging == nil do
+     dsk_maps
+   end
+
+    def all_paging(fqdn, Learn.Dsk, paging, dsk_maps_in ) do
+      {:ok, %Learn.DskResults{ paging: paging, results: dsk_maps}} = get(fqdn, Learn.DskResults, paging)
+      all_paging(fqdn, Learn.Dsk, paging, Enum.concat(dsk_maps_in,dsk_maps ) )
+    end
+
   # Elixir warns us if we don't group all of the gets with 3 params together,
   # then all of the gets with 4 params together.
 
@@ -136,6 +155,20 @@ defmodule PhoenixDSK.Lms do
     membership_results = LearnRestUtil.to_struct(Learn.MembershipResults, membership_response)
 
     {:ok, membership_results}
+  end
+
+  def get(fqdn, Learn.DskResults) do
+    {:ok, dsk_response} = LearnRestClient.get_data_sources(fqdn)
+    dsk_results = LearnRestUtil.to_struct(Learn.DskResults, dsk_response)
+
+    {:ok, dsk_results}
+  end
+
+  def get(fqdn, Learn.DskResults, paging) do
+    {:ok, dsk_response} = LearnRestClient.get_nextpage_of_dsks(fqdn, paging["nextPage"])
+    dsk_results = LearnRestUtil.to_struct(Learn.DskResults, dsk_response)
+
+    {:ok, dsk_results}
   end
 
 end
