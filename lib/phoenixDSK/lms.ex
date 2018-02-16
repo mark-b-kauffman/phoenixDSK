@@ -158,7 +158,7 @@ defmodule PhoenixDSK.Lms do
   end
 
   def get(fqdn, Learn.DskResults) do
-    {:ok, dsk_response} = LearnRestClient.get_data_sources(fqdn)
+    {:ok, dsk_response, dskMapUnused} = LearnRestClient.get_data_sources(fqdn)
     dsk_results = LearnRestUtil.to_struct(Learn.DskResults, dsk_response)
 
     {:ok, dsk_results}

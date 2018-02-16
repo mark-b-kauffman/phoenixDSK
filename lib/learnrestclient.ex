@@ -290,6 +290,18 @@ defmodule LearnRestClient do
      {:ok, dsksResponseMap, dskMap}
    end
 
+
+   def get_nextpage_of_dsks(fqdn, nextpage) do
+     # Logger.info "Enter LearnRestClient.get_nextpage_of_memberships"
+     fqdnAtom = String.to_atom(fqdn)
+     url = "https://"<>fqdn<>"#{nextpage}"
+     potionOptions = get_json_potion_options(fqdnAtom,"")
+     response = HTTPotion.get(url, potionOptions)
+     {:ok, dsks} = Poison.decode(response.body)
+     # Logger.info "Exit LearnRestClient.get_nextpage_of_memberships"
+     {:ok, dsks}
+   end
+
    @doc """
    Get the dataSources URL.
 
