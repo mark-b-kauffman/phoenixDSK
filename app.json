@@ -2,7 +2,13 @@
   "name": "phoenixDSK",
   "description": "A Blackboard Learn REST Application Modeled after the YorkDSK B2. Built on Elixir/Phoenix.",
   "repository": "https://github.com/mark-b-kauffman/phoenixDSK",
-  "keywords": ["elixir", "phoenix", "Blackboard", "REST", "DSK"],
+  "keywords": [
+    "elixir",
+    "phoenix",
+    "Blackboard",
+    "REST",
+    "DSK"
+  ],
   "addons": [
     "heroku-postgresql:hobby-dev"
   ],
@@ -16,13 +22,7 @@
     "LEARNSERVER": "Replace this with the FQDN of your Learn server.",
     "PHOENIX_DSK_USER": "Replace this with the username for login.",
     "PHOENIX_DSK_PWD": "Replace this with the password for login."
-
   },
-  "scripts": {
-  },
-  "buildpacks": [
-    { "url": "https://github.com/HashNuke/heroku-buildpack-elixir.git" },
-    { "url": "https://github.com/gjaldon/heroku-buildpack-phoenix-static.git" }
-  ],
+  "scripts": {},
   "success_url": "/register"
 }
