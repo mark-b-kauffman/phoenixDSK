@@ -2,7 +2,7 @@
   "name": "phoenixDSK",
   "version": "1.0.0",
   "engines": {
-    "node": "9.5.0"
+    "node": "v9.7.1"
   },
   "repository": {},
   "license": "MIT",
