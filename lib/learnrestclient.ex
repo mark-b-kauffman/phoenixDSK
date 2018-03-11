@@ -84,7 +84,7 @@ defmodule LearnRestClient do
 
  """
  def start_demo() do
-   fqdn = "bd-partner-a-original.blackboard.com"
+   fqdn = "bd-partner-a-original-new.blackboard.com"
    fqdnAtom = String.to_atom(fqdn)
    client=LearnRestClient.start_client(fqdn)
    %{ "fqdn"=>fqdn, "fqdnAtom" => fqdnAtom, "client" => client }
@@ -269,6 +269,29 @@ defmodule LearnRestClient do
    end
 
    ##### DATA SOURCES #####
+
+   @doc """
+      Create a DSK
+      %{"externalId" => "someId"}, "description" => "a description"}
+      --data '{"externalId":"<String>","description":"<String>"}'
+   """
+   # Can use the following to create a bunch of dsks!
+   # iex(5)> for i <- 1..10 do
+   # ...(5)> dskData = %{"externalId" => "zid#{i}", "description" => "zdesc#{i}"}
+   # ...(5)> LearnRestClient.create_datasource(fqdn,dskData)
+   # ...(5)> end
+   def create_datasource(fqdn, dskData) do
+     fqdnAtom = String.to_atom(fqdn)
+     {:ok, body} = Poison.encode(dskData)
+
+     options = LearnRestClient.get_json_potion_options(fqdnAtom, body)
+
+     url = get_data_sources_url(fqdn)
+
+     response = HTTPotion.post(url, options)
+
+     {:ok, response.body}
+   end
 
    @doc """
    Get dataSources from the remote system specified by the fqdn
