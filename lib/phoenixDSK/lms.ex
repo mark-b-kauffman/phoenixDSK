@@ -10,8 +10,8 @@ defmodule PhoenixDSK.Lms do
   get method for the given structure type. Hence there is an all method for
   Learn.Dsk, and another all method for Learn.User, etc.
   Example Usage:
-    iex(1)> fqdn = "bd-partner-a-original.blackboard.com"
-      "bd-partner-a-original.blackboard.com"
+    iex(1)> fqdn = "bd-partner-a-original-new.blackboard.com"
+      "bd-partner-a-original-new.blackboard.com"
     iex(2)> PhoenixDSK.Lms.all(fqdn,Learn.Dsk)
     {:ok,
     [%Learn.Dsk{description: "Internal data source used for associating records that are created for use by the Bb system.",

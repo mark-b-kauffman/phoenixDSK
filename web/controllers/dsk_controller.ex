@@ -1,3 +1,4 @@
+# require IEx
 defmodule PhoenixDSK.DskController do
   use PhoenixDSK.Web, :controller
   alias PhoenixDSK.Lms, as: Lms
@@ -11,6 +12,7 @@ defmodule PhoenixDSK.DskController do
   def index(conn, _params) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, dskList} = Lms.all(fqdn, Learn.Dsk, "allpages")
+    # IEx.pry
     render conn, "index.html", dskList: dskList, fqdn: fqdn
   end
 

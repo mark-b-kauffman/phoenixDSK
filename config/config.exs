@@ -20,8 +20,8 @@ config :phoenixDSK, PhoenixDSK.Endpoint,
 
 # Add this applications config to the endpoint
   config :phoenixDSK, PhoenixDSK.Endpoint,
-    learnserver: "bd-partner-a-ultra.blackboard.com",
-    learnserverAtom: String.to_atom("bd-partner-a-ultra.blackboard.com")
+    learnserver: "bd-partner-a-original-new.blackboard.com",
+    learnserverAtom: String.to_atom("bd-partner-a-original-new.blackboard.com")
 
 # Configures Elixir's
 

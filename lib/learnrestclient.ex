@@ -4,6 +4,7 @@
 # 2017.03.24 MBK - moved appkey and appsecret to config/dev.exs.
 # 2017.12.27 MBK - When we get an access token, we calculate and save the time it will expire.
 # Then we check the time and refresh our access token on expiration in get_json_request_headers
+# require IEx
 defmodule LearnRestClient do
   require Logger
   # We want to be able to access these module constants outside of the module.
@@ -123,13 +124,14 @@ defmodule LearnRestClient do
      {:ok, tokenMap} = get_authorization(fqdn)
 
      # Now we can do:
-     # fqdn = "bd-partner-a-original.blackboard.com"
+     # fqdn = "bd-partner-a-original-new.blackboard.com"
      # fqdnAtom = String.to_atom(fqdn)
      # client=LearnRestClient.start_client(fqdn)
      # LearnRestClient.get(fqdnAtom, "tokenMap")
      # client["dskMap"] client["tokenMap"]["access_token"] client["dskMap"]["_17_1"]["description"]
      # LearnRestClient.get(fqdnAtom, "dskMap")
-     {:ok, intentionallyUnused, theDskMap} = LearnRestClient.get_data_sources(fqdn)
+     {:ok, responesMapUnused, theDskMap} = LearnRestClient.get_data_sources(fqdn)
+     # IEx.pry
      {:ok, %{"fqdn"=>fqdn, "tokenMap" => tokenMap, "dskMap" => theDskMap}}
    end
 
@@ -315,13 +317,13 @@ defmodule LearnRestClient do
 
 
    def get_nextpage_of_dsks(fqdn, nextpage) do
-     # Logger.info "Enter LearnRestClient.get_nextpage_of_memberships"
+     # Logger.info "Enter LearnRestClient.get_nextpage_of_dsks"
      fqdnAtom = String.to_atom(fqdn)
      url = "https://"<>fqdn<>"#{nextpage}"
      potionOptions = get_json_potion_options(fqdnAtom,"")
      response = HTTPotion.get(url, potionOptions)
      {:ok, dsks} = Poison.decode(response.body)
-     # Logger.info "Exit LearnRestClient.get_nextpage_of_memberships"
+     # Logger.info "Exit LearnRestClient.get_nextpage_of_dsks"
      {:ok, dsks}
    end
 
