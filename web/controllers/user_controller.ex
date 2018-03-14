@@ -1,6 +1,7 @@
 defmodule PhoenixDSK.UserController do
   use PhoenixDSK.Web, :controller
   require Logger
+  require IEx
   alias PhoenixDSK.Lms, as: Lms
 
   @doc """
@@ -28,6 +29,11 @@ defmodule PhoenixDSK.UserController do
       "externalId" => "mh_shib", "id" => "_19_1"},
     "_1_1" => %{"description" => "Internal data source used for associating records that are created for use by the Bb system.",
       "externalId" => "INTERNAL", "id" => "_1_1"}, ... }
+
+   Regarding the dsk model (struct)
+   defmodule Learn.Dsk do
+     defstruct [:id, :externalId, :description]
+   end
   """
 
   @doc """
@@ -41,7 +47,12 @@ defmodule PhoenixDSK.UserController do
   def index(conn, _params) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, userList} = Lms.all(fqdn, Learn.User) # List of structs
-    {:ok, intentionallyUnused, dskMap } = LearnRestClient.get_data_sources(fqdn)
+    # {:ok, intentionallyUnused, dskMap } = LearnRestClient.get_data_sources(fqdn)
+    {:ok, dskList} = Lms.all(fqdn, Learn.Dsk, "allpages")
+    # IEx.pry
+    mapout = %{}
+    dskMap = LearnRestUtil.listofstructs_to_mapofstructs( dskList, mapout, :id )
+    # IEx.pry
     render conn, "index.html", userList: userList, dskMap: dskMap, fqdn: fqdn
   end
 
@@ -56,12 +67,21 @@ defmodule PhoenixDSK.UserController do
   def show(conn, %{"userName" => userName}) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, user} = Lms.get(fqdn, Learn.User, userName) # user as struct
-    {:ok, intentionallyUnused, dskMap} = LearnRestClient.get_data_sources(fqdn)
+    # {:ok, intentionallyUnused, dskMap} = LearnRestClient.get_data_sources(fqdn)
     # dskMap =  LearnRestClient.get(String.to_atom(fqdn), "dskMap")
     # dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
     # here we need a util method that takes the dskMap and returns a list in the above form....
     # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
-    dskList = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
+    # dskList = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
+
+    {:ok, dskList} = Lms.all(fqdn, Learn.Dsk, "allpages")
+    # dskList is a list of maps
+    # [ %Learn.Dsk{description: "blah.", externalId: "INTERNAL", id: "_1_1" }, %Learn.Dsk ... ]
+    mapout = %{}
+    dskMap = LearnRestUtil.listofstructs_to_mapofstructs( dskList, mapout, :id )
+    #dskMap is a map of structs
+    # %{"_33_1" => %Learn.Dsk{ description: "zdesc13", externalId: "zid13", id: "_33_1"}, "_75_1" => %Learn.Dsk ... }
+    # IEx.pry
     render conn, "show.html", userName: userName, user: user, dskMap: dskMap, dskList: dskList
   end
 

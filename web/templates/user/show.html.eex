@@ -17,7 +17,7 @@
       <td> <%= @user.externalId %> </td>
       <td> <%= @user.userName %> </td>
       <td> <%= @user.contact["email"] %> </td>
-      <td> <%= @dskMap[@user.dataSourceId]["externalId"] %> </td>
+      <td> <%= @dskMap[@user.dataSourceId].externalId %> </td>
       <td> <%= @user.availability["available"] %> </td>
     </tr>
 </table>
@@ -32,11 +32,17 @@
           <%# Here's the syntax to write a comment that isn't rendered. Same as Rails.
           <%= select f, :newdsk, ["SYSTEM": "SYSTEM", "other": "other"], selected: @dskMap[@user.dataSourceId]["externalId"] % -->
           <!-- select(form, :user_id, users |> Enum.map(&{&1.name, &1.id})) -->
-          <!-- The following is a re-write of the above for this usage. dskList is a list of maps derived from the dskMap. -->
-          <!-- The dskList is of the form [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}, ...] -->
+          <!-- The following is a re-write of the above for our usage. dskList is a list of maps derived from the dskMap. -->
+          #dskMap is a map of structs
+          # %{"_33_1" => %Learn.Dsk{ description: "zdesc13", externalId: "zid13", id: "_33_1"}, "_75_1" => %Learn.Dsk ... }
+          #dskList is a list of maps
+          # [ %Learn.Dsk{description: "blah.", externalId: "INTERNAL", id: "_1_1" }, %Learn.Dsk ... ]
           %>
           <%= hidden_input f, :newUser, [value: "#{@user.userName}"] %>
-          <%= select f, :selected_dsk,  @dskList |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@user.dataSourceId]["id"]  %>
+
+          <!-- %= select f, :selected_dsk,  @dskList |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@user.dataSourceId]["id"]  % -->
+
+          <%= select f, :selected_dsk,  @dskList |> Enum.map(&{Map.get(&1,:externalId), Map.get(&1,:id)}), selected: @dskMap[@user.dataSourceId].id  %>
           <%#  Must be of the format ["Yes":], ["Yes" :] will bomb! It's an atom...  %>
           <%= select f, :selected_avail, ["Yes": "Yes", "No": "No", "Disabled": "Disabled"], selected: @user.availability["available"] %>
           <%= submit "Submit" %>

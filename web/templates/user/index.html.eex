@@ -26,7 +26,7 @@
         <tr>
           <td> <%= link user.userName, to: user_path(@conn, :show, user.userName) %> </td>
           <td> <%= user.contact["email"] %> </td>
-          <td> <%= @dskMap[user.dataSourceId]["externalId"] %> </td>
+          <td> <%= @dskMap[user.dataSourceId].externalId %> </td>
           <td> <%= user.availability["available"] %> </td>
         </tr>
       <% end %>
