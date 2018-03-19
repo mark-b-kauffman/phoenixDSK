@@ -15,7 +15,7 @@
     <tr>
       <td> <%= @course.courseId %> </td>
       <td> <%= @course.organization %> </td>
-      <td> <%= @dskMap[@course.dataSourceId]["externalId"] %> </td>
+      <td> <%= @dskMap[@course.dataSourceId].externalId %> </td>
       <td> <%= @course.availability["available"] %> </td>
     </tr>
 </table>
@@ -30,7 +30,7 @@
           <%# See users code for details. It was a simple matter to copy that here and update it for a course.
           %>
           <%= hidden_input f, :newCourse, [value: "#{@course.courseId}"] %>
-          <%= select f, :selected_dsk,  @dskList |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@course.dataSourceId]["id"]  %>
+          <%= select f, :selected_dsk,  @dskList |> Enum.map(&{Map.get(&1,:externalId), Map.get(&1,:id)}), selected: @dskMap[@course.dataSourceId].id  %>
           <%#  Must be of the format ["Yes":], ["Yes" :] will bomb! It's an atom...  %>
           <%= select f, :selected_avail, ["Yes": "Yes", "No": "No", "Disabled": "Disabled"], selected: @course.availability["available"] %>
           <%= submit "Submit" %>

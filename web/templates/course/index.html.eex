@@ -28,7 +28,7 @@
           <td> <%= link course.courseId, to: course_path(@conn, :show, course.courseId) %> </td>
           <td> <%= course.organization %> </td>
           <td> <%= course.name %> </td>
-          <td> <%= @dskMap[course.dataSourceId]["externalId"] %> </td>
+          <td> <%= @dskMap[course.dataSourceId].externalId %> </td>
           <td> <%= course.availability["available"] %> </td>
         </tr>
       <%= end %>

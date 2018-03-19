@@ -15,7 +15,7 @@
     <tr>
       <td> <%= @course.courseId %> </td>
       <td> <%= @course.organization %> </td>
-      <td> <%= @dskMap[@course.dataSourceId]["externalId"] %> </td>
+      <td> <%= @dskMap[@course.dataSourceId].externalId %> </td>
       <td> <%= @course.availability["available"] %> </td>
     </tr>
 </table>
@@ -49,7 +49,7 @@
           <td> <%= link membership.user.userName, to: membership_path(@conn, :show, @course.courseId, membership.user.userName) %> </td>
           <td> <%= membership.courseRoleId %> </td>
           <td> <%= membership.availability["available"] %> </td>
-          <td> <%= @dskMap[membership.dataSourceId]["externalId"] %> </td>
+          <td> <%= @dskMap[membership.dataSourceId].externalId %> </td>
         </tr>
       <% end %>
     </table>

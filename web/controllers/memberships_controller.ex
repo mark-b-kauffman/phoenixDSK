@@ -47,7 +47,14 @@ defmodule PhoenixDSK.MembershipsController do
   def index(conn, _params) do
     fqdn = Application.get_env(:phoenixDSK, PhoenixDSK.Endpoint)[:learnserver]
     {:ok, courseList} = Lms.all(fqdn, Learn.Course) # List of structs
-    {:ok, intentionallyUnused, dskMap } = LearnRestClient.get_data_sources(fqdn)
+    # Now that we do the following we have to change how the template accesses the data.
+    # The keys are no longer strings so we have to use the . notation.
+    {:ok, dskList} = Lms.all(fqdn, Learn.Dsk, "allpages")
+    # dskList is a list of maps
+    # [ %Learn.Dsk{description: "blah.", externalId: "INTERNAL", id: "_1_1" }, %Learn.Dsk ... ]
+    mapout = %{}
+    dskMap = LearnRestUtil.listofstructs_to_mapofstructs( dskList, mapout, :id )
+    #dskMap is a map of structs
     render conn, "index.html", courseList: courseList, dskMap: dskMap, fqdn: fqdn
   end
 
@@ -62,10 +69,20 @@ defmodule PhoenixDSK.MembershipsController do
       # dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
       # here we need a util method that takes the dskMap and returns a list in the above form....
       # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
-      dsk_list = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
+      # dsk_list = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
+
+      # No longer doing the above for DSKs. Doing the following:
+      # Now that we do the following we have to change how the template accesses the data.
+      # The keys are no longer strings so we have to use the . notation.
+      {:ok, dskList} = Lms.all(fqdn, Learn.Dsk, "allpages")
+      # dskList is a list of maps
+      # [ %Learn.Dsk{description: "blah.", externalId: "INTERNAL", id: "_1_1" }, %Learn.Dsk ... ]
+      mapout = %{}
+      dskMap = LearnRestUtil.listofstructs_to_mapofstructs( dskList, mapout, :id )
+      #dskMap is a map of structs
 
       {:ok, memberships} = Lms.all(fqdn, Learn.Membership, courseId)
-      render conn, "courseId/show.html", courseId: courseId, course: course, memberships: memberships, dskMap: dskMap, dskList: dsk_list
+      render conn, "courseId/show.html", courseId: courseId, course: course, memberships: memberships, dskMap: dskMap, dskList: dskList
   end
 
   @doc """

@@ -48,10 +48,19 @@ defmodule PhoenixDSK.MembershipController do
       # dskList = [%{"id" => "_2_1", "externalId" => "SYSTEM"}, %{"id" => "_1_1", "externalId" => "INTERNAL"}]
       # here we need a util method that takes the dskMap and returns a list in the above form....
       # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
-      dsk_list = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
+      # dsk_list = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
+      # Now that we do the following we have to change how the template accesses the data.
+      # The keys are no longer strings so we have to use the . notation.
+      {:ok, dsk_list} = Lms.all(fqdn, Learn.Dsk, "allpages")
+      # dsk_list is a list of maps
+      # [ %Learn.Dsk{description: "blah.", externalId: "INTERNAL", id: "_1_1" }, %Learn.Dsk ... ]
+      mapout = %{}
+      dsk_map = LearnRestUtil.listofstructs_to_mapofstructs( dsk_list, mapout, :id )
+      #dsk_map is a map of structs
+
 
       {:ok, membership} = Lms.get(fqdn, Learn.Membership, courseId, userName)
-      render conn, "show.html", courseId: courseId, course: course, userName: userName, user: user, membership: membership, dskMap: dskMap, dskList: dsk_list
+      render conn, "show.html", courseId: courseId, course: course, userName: userName, user: user, membership: membership, dskMap: dsk_map, dskList: dsk_list
   end
 
   @doc """
