@@ -49,6 +49,7 @@ defmodule PhoenixDSK.MembershipController do
       # here we need a util method that takes the dskMap and returns a list in the above form....
       # What do you know, Elixir lets us do this witha one-liner! No need for a util method!
       # dsk_list = Enum.map(dskMap, fn {k, v} -> %{"id" => k, "externalId"=>v["externalId"] } end)
+
       # Now that we do the following we have to change how the template accesses the data.
       # The keys are no longer strings so we have to use the . notation.
       {:ok, dsk_list} = Lms.all(fqdn, Learn.Dsk, "allpages")
