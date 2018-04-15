@@ -3,7 +3,8 @@
 # Date : 2017.03
 # 2017.03.24 MBK - moved appkey and appsecret to config/dev.exs.
 # 2017.12.27 MBK - When we get an access token, we calculate and save the time it will expire.
-# Then we check the time and refresh our access token on expiration in get_json_request_headers
+# get_json_request_headers always calls get_authorization. We get a new one as necessary.
+# For basic auth, the expiry check is in get_basic_access_token_map
 # require IEx
 defmodule LearnRestClient do
   require Logger
@@ -137,7 +138,9 @@ defmodule LearnRestClient do
 
    @doc """
       Call get_basic_access_token whenever you want an access token.
-      We call this whether we have chosen basic-auth or three-legged-auth
+      The key point here is that we start making calls to the Learn server
+      to get an OAuth access token when we're within 10 seconds of the
+      token we have expiring.
    """
    def get_basic_access_token_map(fqdn) do
      fqdnAtom = String.to_atom(fqdn)
