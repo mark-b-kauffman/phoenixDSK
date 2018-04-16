@@ -17,6 +17,7 @@ defmodule LearnRestClient do
         dskendpoint: "/learn/api/public/v1/dataSources",
         usersendpoint: "/learn/api/public/v1/users",
         coursesendpoint: "/learn/api/public/v1/courses",
+        authcode_endpoint: "/learn/api/public/v1/oauth2/authorizationcode"
       }
   @doc """
   Return this module's Key/Value constant, kv.
@@ -525,6 +526,9 @@ defmodule LearnRestClient do
      basic_auth: {appkey,appsecret}]
   end
 
+  def get_authcode_url(fqdn) do
+    "https://"<>fqdn<>@kv[:authcode_endpoint]
+  end
   ##### USERS #####
 
   @doc """
