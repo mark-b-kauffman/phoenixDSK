@@ -19,6 +19,8 @@ defmodule PhoenixDSK.Router do
     plug BasicAuth, username: username, password: password
   end
 
+  forward "/logout", BasicAuth, username: "thisisnotausername", password: "nopasswordhere"
+
   scope "/", PhoenixDSK do
     pipe_through [:browser, :login] # Use the default browser stack
 

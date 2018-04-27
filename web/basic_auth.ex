@@ -2,12 +2,18 @@
 # https://medium.com/@paulfedory/basic-authentication-in-your-phoenix-app-fa24e57baa8
 defmodule BasicAuth do
   import Plug.Conn
+  require Logger
 
   @realm "Basic realm=\"phoenixDSK\""
 
   def init(opts), do: opts
 
+  # get_req_header(conn, key) Returns the values of the request header specified by key
+  # values is plural, hence a list. The values of the authorization header looks like:
+  # ["Basic dXNlcjM6c2VjcmV0Mw=="]
+
   def call(conn, correct_auth_details) do
+    Logger.info IO.inspect(get_req_header(conn, "authorization"), [])
     case get_req_header(conn, "authorization") do
       ["Basic " <> auth] -> verify(conn, auth, correct_auth_details)
       _                  -> unauthorized(conn)
