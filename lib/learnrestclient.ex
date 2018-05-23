@@ -87,7 +87,7 @@ defmodule LearnRestClient do
 
  """
  def start_demo() do
-   fqdn = "bd-partner-a-original-new.blackboard.com"
+   fqdn = "bd-partner-a-original.blackboard.com"
    fqdnAtom = String.to_atom(fqdn)
    client=LearnRestClient.start_client(fqdn)
    %{ "fqdn"=>fqdn, "fqdnAtom" => fqdnAtom, "client" => client }
@@ -126,7 +126,7 @@ defmodule LearnRestClient do
      {:ok, tokenMap} = get_authorization(fqdn)
 
      # Now we can do:
-     # fqdn = "bd-partner-a-original-new.blackboard.com"
+     # fqdn = "bd-partner-a-original.blackboard.com"
      # fqdnAtom = String.to_atom(fqdn)
      # client=LearnRestClient.start_client(fqdn)
      # LearnRestClient.get(fqdnAtom, "tokenMap")
