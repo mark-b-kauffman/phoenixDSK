@@ -1,5 +1,5 @@
 # PhoenixDSK
-See BLACKBOARD_LICENSE.md for the license pertaining to the portions of this application specific to Blackboard Learn.
+See BLACKBOARD_LICENSE.md for the license pertaining to the portions of this application specific to Blackboard Learn. 
 
 See PHOENIX_LICENSE.md for the Phoenix Framework License
 
