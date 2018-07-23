@@ -42,7 +42,7 @@
           <%= hidden_input f, :newCourse, [value: "#{@course.courseId}"] %>
           <%= hidden_input f, :newUser, [value: "#{@user.userName}"] %>
           <!-- %= select f, :selected_dsk,  @dskList |> Enum.map(&{&1["externalId"], &1["id"]}), selected: @dskMap[@membership.dataSourceId]["id"]  % -->
-          <%= select f, :selected_dsk,  @dskList |> Enum.map(&{Map.get(&1,:externalId), Map.get(&1,:id)}), selected: @dskMap[@user.dataSourceId].id  %>
+          <%= select f, :selected_dsk,  @dskList |> Enum.map(&{Map.get(&1,:externalId), Map.get(&1,:id)}), selected: @dskMap[@membership.dataSourceId].id  %>
           <%#  Must be of the format ["Yes":], ["Yes" :] will bomb! It's an atom...  %>
           <%= select f, :selected_avail, ["Yes": "Yes", "No": "No", "Disabled": "Disabled"], selected: @membership.availability["available"] %>
           <%= submit "Submit" %>
