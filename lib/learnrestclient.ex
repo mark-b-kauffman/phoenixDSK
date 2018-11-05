@@ -15,6 +15,7 @@ defmodule LearnRestClient do
   @kv %{
         tokenendpoint: "/learn/api/public/v1/oauth2/token",
         dskendpoint: "/learn/api/public/v1/dataSources",
+        courserolesendpoint: "/learn/api/public/v1/courseRoles",
         usersendpoint: "/learn/api/public/v1/users",
         coursesendpoint: "/learn/api/public/v1/courses",
         authcode_endpoint: "/learn/api/public/v1/oauth2/authorizationcode"
@@ -337,6 +338,44 @@ defmodule LearnRestClient do
    """
    def get_data_sources_url(fqdn) do
      "https://"<>fqdn<>"/learn/api/public/v1/dataSources"
+   end
+
+   ##### COURSE ROLES #####
+
+   @doc """
+   Get course roles from the remote system specified by the fqdn
+   Parses the JSON content in the response body to a map.
+   Returns the Map.
+   """
+   def get_courseroles(fqdn) do
+     fqdnAtom = String.to_atom(fqdn)
+     url = get_courseroles_url(fqdn)
+     potionOptions = get_json_potion_options(fqdnAtom,"")
+     response = HTTPotion.get(url, potionOptions)
+     {:ok, courseRolesResponseMap} = Poison.decode(response.body)
+     # Unlike DSKs, we don't store these in the LearnRestClient
+     # We keep the DSKs around - because of an early design
+     # decision that could possibly be changed later.
+     {:ok, courseRolesResponseMap}
+   end
+
+   def get_nextpage_of_courseroles(fqdn, nextpage) do
+     # Logger.info "Enter LearnRestClient.get_nextpage_of_courseroles"
+     fqdnAtom = String.to_atom(fqdn)
+     url = "https://"<>fqdn<>"#{nextpage}"
+     potionOptions = get_json_potion_options(fqdnAtom,"")
+     response = HTTPotion.get(url, potionOptions)
+     {:ok, courseroles} = Poison.decode(response.body)
+     # Logger.info "Exit LearnRestClient.get_nextpage_of_dsks"
+     {:ok, courseroles}
+   end
+
+   @doc """
+   Get the courseroles URL.
+
+   """
+   def get_courseroles_url(fqdn) do
+     "https://"<>fqdn<>"/learn/api/public/v1/courseRoles"
    end
 
    @doc """
