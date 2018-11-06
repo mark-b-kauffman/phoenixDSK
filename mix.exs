@@ -35,6 +35,7 @@ defmodule PhoenixDSK.Mixfile do
      {:poison, "~> 2.0"},
      {:httpotion, "~> 3.0.2"},
      {:gettext, "~> 0.11"},
+     {:plug_cowboy, "~> 1.0"},
      {:cowboy, "~> 1.0"}]
   end
 
