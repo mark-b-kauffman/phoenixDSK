@@ -59,7 +59,7 @@ defmodule LearnRestUtil, do: (
   """
   def listofmaps_to_structs(struct_type, list_of_maps) do
 
-    if list_of_maps, do: (
+    list_of_structs = if list_of_maps, do: (
       list_of_structs = for n <- list_of_maps, do: LearnRestUtil.to_struct(struct_type, n)
     ), else: (
       list_of_structs = []
