@@ -42,12 +42,14 @@ Refresh REST Auth token on expiration
 Paging on the dsks and users index pages.
 
 To try the different modules in iex:
+  * Modify dev.exs to use your Rest Applications Key and Secret
   * $ iex -S mix
 
 To start this Phoenix app you must do the following the first time after checkout:
 
   * Install dependencies with `mix deps.get`
   * Install Node.js dependencies with `npm install`
+  * Modify dev.exs to use your REST Application Key and Secret
 
 The above only need doing the first time, after that you can just start the server with the following:
   * Start Phoenix endpoint with `mix phoenix.server`
