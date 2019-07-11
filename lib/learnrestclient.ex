@@ -180,6 +180,12 @@ defmodule LearnRestClient do
      result = case response do
        %HTTPotion.Response{} ->
          {:ok, tokenMap} = Poison.decode(response.body) # Convert the Json in the response body to a map.
+         case tokenMap do
+            %{"error" => _} ->
+                IO.puts("ERROR")
+                exit("Did you place your key and secret in dev.exs?")
+            _ -> tokenMap
+         end
          now = System.system_time(:second)
          seconds_to_expire = tokenMap["expires_in"]
          expire_time = now + seconds_to_expire
